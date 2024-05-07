@@ -1,0 +1,4 @@
+node_modules
+wfh-server/dist/
+wfh-server/.env
+wfh-backend/.env

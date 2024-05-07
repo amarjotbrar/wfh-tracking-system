@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-//creating Schema
-const orgUserSchema = new mongoose.Schema({
+const sysUserSchema = new mongoose.Schema({
     firstName:{
         type:String,
         required:true
@@ -15,22 +14,16 @@ const orgUserSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
-    organization :{
-        type:String,
-        required: true
-    },
     dob :{
         type:String,
         required: true
     },
-    doj :{
-        type:String,
+    isVerified :{
+        type: Boolean,
         required: true
     }
-
 }, {timestamps:true});
 
-//creating model
+const sysUser = mongoose.model('SysUser', sysUserSchema);
 
-const orgUser = mongoose.model('User', orgUserSchema);
-module.exports = orgUser;
+export {sysUser};

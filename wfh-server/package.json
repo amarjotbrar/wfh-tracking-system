@@ -1,11 +1,13 @@
 {
   "dependencies": {
+    "@sendgrid/mail": "^8.1.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongodb": "^6.6.1",
-    "mongoose": "^8.3.4"
+    "mongoose": "^8.3.4",
+    "nodemailer": "^6.9.13"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",
@@ -25,8 +27,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "start": "node dist/app.mjs",
-    "dev": "npx tsc -w & nodemon dist/app.mjs"
+    "start": "node dist/server.mjs",
+    "dev": "npx tsc -w & nodemon dist/server.mjs"
   },
   "author": "",
   "license": "ISC",

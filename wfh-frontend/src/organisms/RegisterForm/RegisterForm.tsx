@@ -2,8 +2,6 @@ import { Button, Input } from 'rsuite'
 import './RegisterForm.scss'
 import { useNavigate  } from 'react-router-dom'
 import { useState } from 'react'
-import './types.d.ts'
-
 
 function RegisterForm() {
   const [user, setUser] = useState("System");
@@ -11,23 +9,48 @@ function RegisterForm() {
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [org, setOrg] = useState("");
-  const [DOB, setDOB] = useState("");
-  const [DOJ, setDOJ] = useState("");
+  const [dob, setDOB] = useState("");
+  const [doj, setDOJ] = useState("");
   const [error, setError] = useState("");
+  const isVerified = false;
 
   const navigate = useNavigate();
 
-  const handleSystem = async() => {
-    console.log(firstName, lastName, email, org, DOB, DOJ);
+  const handleSystem = async(e:FormSubmit) => {
+    e.preventDefault();
+    const addOrgUser = {firstName, lastName, email, dob, isVerified};
+
+    const response = await fetch("http://localhost:5000/register/sys", {
+      method: 'POST',
+      body : JSON.stringify(addOrgUser),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+
+    const result = await response.json();
+
+    if(!response.ok){
+      console.log(result.error);
+      setError(result.error);
+    }
+
+    if(response.ok){
+      console.log(result);
+      setError("");
+      setFirstname("");
+      setLastname("");
+      setEmail("");
+      setDOB("");
+      navigate("/login")
+    }
   }
 
   const handleOrganization = async(e:FormSubmit)=>{
     e.preventDefault();
-    const addOrgUser = {firstName, lastName, email, org, DOB, DOJ};
+    const addOrgUser = {firstName, lastName, email, org, dob, doj, isVerified};
 
-    console.log(addOrgUser);
-
-    const response = await fetch("http://localhost:5000/register", {
+    const response = await fetch("http://localhost:5000/register/org", {
       method: 'POST',
       body : JSON.stringify(addOrgUser),
       headers: {
@@ -53,7 +76,6 @@ function RegisterForm() {
       setDOJ("");
       navigate("/login")
     }
-
   }
 
   return (

@@ -27,8 +27,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "start": "node dist/server.mjs",
-    "dev": "npx tsc -w & nodemon dist/server.mjs"
+    "start": "node dist/server.js",
+    "dev": "npx tsc -w & nodemon dist/server.js"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const sysUserSchema = new mongoose.Schema({
+const SystemUserSchema = new mongoose.Schema({
     firstName:{
         type:String,
         required:true
@@ -24,6 +24,6 @@ const sysUserSchema = new mongoose.Schema({
     }
 }, {timestamps:true});
 
-const sysUser = mongoose.model('SysUser', sysUserSchema);
+const SystemUserModel = mongoose.model('SysUser', SystemUserSchema);
 
-export {sysUser};
+export {SystemUserModel};

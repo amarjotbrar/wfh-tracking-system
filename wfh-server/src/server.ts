@@ -3,8 +3,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { regOrgRoute } from './routes/registerOrgUser.route.mjs';
-import { regSysRoute } from './routes/registerSysUser.route.mjs';
+import router from "./routes/main.js";
+
 const app = express();
 
 app.use(express.json());
@@ -12,8 +12,9 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use(cookieParser());
 
-dotenv.config();
+app.use('/', router)
 
+dotenv.config();
 
 async function connectToMongoDB(connectionString: any){
     await mongoose.connect(connectionString);
@@ -28,15 +29,6 @@ try {
 
 const PORT = process.env.PORT;
 
-
-
-app.get('/', (req,res) => {
-    res.status(200).send('Hello, world!');
-});
-
 app.listen(PORT, ()=>{
     console.log(`App is listening on port ${PORT}`);
-})
-
-app.use(regOrgRoute);
-app.use(regSysRoute);
+});

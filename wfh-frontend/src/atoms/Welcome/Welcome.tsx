@@ -1,12 +1,12 @@
-import "./Welcome.scss"
+import "./Welcome.scss";
 
-function Welcome() {
+const Welcome = () => {
   return (
-    <div className='WelcomeContainer'>
-        <h2>Welcome to</h2>
-        <h2 className="Focused">"Work From Home Tracking System"</h2>
+    <div className="WelcomeContainer">
+      <h2>Welcome to</h2>
+      <h2 className="Focused">"Work From Home Tracking System"</h2>
     </div>
-  )
-}
+  );
+};
 
-export default Welcome
+export default Welcome;

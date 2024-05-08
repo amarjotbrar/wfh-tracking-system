@@ -1,0 +1,19 @@
+$height: calc(90vh - 76px);
+.SysHomeBody {
+  height: $height;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .createOrgContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+  }
+
+  .AllOrgsContainer {
+    height: 80%;
+    width: 80%;
+  }
+}

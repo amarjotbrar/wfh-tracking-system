@@ -1,0 +1,6 @@
+$height: calc(90vh - 56px);
+.orgHomeBody {
+  display: flex;
+  justify-content: space-around;
+  height: $height;
+}

@@ -24,6 +24,6 @@ const SystemUserSchema = new mongoose.Schema({
     }
 }, {timestamps:true});
 
-const SystemUserModel = mongoose.model('SysUser', SystemUserSchema);
+const SystemUserModel = mongoose.model('SystemUser', SystemUserSchema);
 
 export {SystemUserModel};

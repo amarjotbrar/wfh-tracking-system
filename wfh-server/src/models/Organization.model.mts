@@ -16,12 +16,7 @@ const OrganizationSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-
-    isVisible:{
-        type: Boolean,
-        required: true
-    }
 })
 
-const OrganizationModel = mongoose.model('org', OrganizationSchema);
+const OrganizationModel = mongoose.model('Organization', OrganizationSchema);
 export {OrganizationModel};

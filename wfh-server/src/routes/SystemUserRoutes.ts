@@ -9,6 +9,6 @@ const OrganizationControllerInstance = new OrganizationController();
 SystemUserRouter.post('/register', SystemUserControllerInstance.CreateSystemUser);
 SystemUserRouter.post('/createorg', OrganizationControllerInstance.CreateOrganization);
 SystemUserRouter.get('/showorgs', OrganizationControllerInstance.ShowOrganizations);
-SystemUserRouter.delete("/:id", OrganizationControllerInstance.DeleteOrganization);
+SystemUserRouter.delete("/deleteorg/:id", OrganizationControllerInstance.DeleteOrganization);
 
 export default SystemUserRouter;

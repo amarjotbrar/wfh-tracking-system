@@ -1,6 +1,7 @@
 import "./CreateOrgForm.scss";
 import { useState } from "react";
 import { Modal, Button, Input } from "rsuite";
+import { SystemUserServices } from "../../services/index";
 
 const CreateOrgForm = () => {
   const [popup, setPopup] = useState(true);
@@ -9,20 +10,12 @@ const CreateOrgForm = () => {
   const [maxWfhDays, SetMaxWfhDays] = useState(0);
   const [error, setError] = useState("");
 
-  const isVisible = true;
-
   const handleSubmit = async (e: FormSubmit) => {
     e.preventDefault();
 
-    const addOrg = { org_name, name, maxWfhDays, isVisible };
+    const addOrg = { org_name, name, maxWfhDays};
 
-    const response = await fetch("http://localhost:5000/sys/createorg", {
-      method: "POST",
-      body: JSON.stringify(addOrg),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await SystemUserServices.CreateOrganization(addOrg);
 
     const result = await response.json();
 

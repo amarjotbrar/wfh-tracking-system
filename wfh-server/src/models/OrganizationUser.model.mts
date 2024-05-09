@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const orgUserSchema = new mongoose.Schema({
+const OrganizationUserSchema = new mongoose.Schema({
     firstName:{
         type:String,
         required:true
@@ -33,6 +33,6 @@ const orgUserSchema = new mongoose.Schema({
 
 }, {timestamps:true});
 
-const orgUser = mongoose.model('OrgUser', orgUserSchema);
+const OrganizationUserModel = mongoose.model('OrganizationUser', OrganizationUserSchema);
 
-export {orgUser};
+export {OrganizationUserModel};

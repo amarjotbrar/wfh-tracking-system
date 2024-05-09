@@ -3,6 +3,7 @@ import "./RegisterForm.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { SystemUserServices, OrganizationUserServices } from "../../services/index";
 
 const RegisterForm = () => {
   const [user, setUser] = useState("System");
@@ -19,15 +20,9 @@ const RegisterForm = () => {
 
   const handleSystem = async (e: FormSubmit) => {
     e.preventDefault();
-    const addOrgUser = { firstName, lastName, email, dob, isVerified };
+    const addSysUser = { firstName, lastName, email, dob, isVerified };
 
-    const response = await fetch("http://localhost:5000/sys/register", {
-      method: "POST",
-      body: JSON.stringify(addOrgUser),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await SystemUserServices.CreateSystemUser(addSysUser);
 
     const result = await response.json();
 
@@ -64,13 +59,7 @@ const RegisterForm = () => {
       isVerified,
     };
 
-    const response = await fetch("http://localhost:5000/register/org", {
-      method: "POST",
-      body: JSON.stringify(addOrgUser),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await OrganizationUserServices.CreateOrganizationUser(addOrgUser);
 
     const result = await response.json();
 
@@ -117,7 +106,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className={"RegisterContainer " + user}>
+    <div className={"RegisterContainerBody"}>
       <div className="errorContainer">
         {error && (
           <div
@@ -131,6 +120,7 @@ const RegisterForm = () => {
           </div>
         )}
       </div>
+      <div className={"RegisterContainer " + user}>
       <h3>Register</h3>
       <div className="underline"></div>
       <div className="userSelection">
@@ -210,6 +200,7 @@ const RegisterForm = () => {
           Submit
         </Button>
       </form>
+      </div>
     </div>
   );
 };

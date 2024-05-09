@@ -1,6 +1,5 @@
-type UserData = {
+type OrganizationData = {
   _id: string;
   name: string;
   maxWfhDays: number;
-  isVisible: boolean
 };

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import OrgCard from "../OrgCard/OrgCard";
 
 const AllOrgs = () => {
-  const [data, setData] = useState<UserData[]>([]);
+  const [data, setData] = useState<OrganizationData[]>([]);
   const [error, setError] = useState("");
 
   async function getData() {
@@ -32,7 +32,7 @@ const AllOrgs = () => {
         {error && <div className="alert alert-danger">{error}</div>}
         <h3>All Organizations:</h3>
         <div className="orgsContainer">
-            {data.filter((ele) => ele.isVisible).map((ele) => (
+            {data?.map((ele) => (
             <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} />
             ))}
         </div>

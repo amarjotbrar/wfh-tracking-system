@@ -1,4 +1,3 @@
-import Welcome from "../../atoms/Welcome/Welcome";
 import RegisterCard from "../../molecules/RegisterCard/RegisterCard";
 import LoginCard from "../../molecules/LoginCard/LoginCard";
 import "./HomePage.scss";
@@ -8,7 +7,10 @@ const HomePage = () => {
   return (
     <>
       <NavBar />
-      <Welcome />
+      <div className="WelcomeContainer">
+        <h2>Welcome to</h2>
+        <h2 className="Focused">"Work From Home Tracking System"</h2>
+      </div>
       <div className="HomeBody">
         <div className="Left">
           <RegisterCard />

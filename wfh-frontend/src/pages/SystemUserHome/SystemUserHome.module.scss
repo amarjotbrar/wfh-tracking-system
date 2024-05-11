@@ -1,18 +1,19 @@
-$height: calc(90vh - 76px);
-.SysHomeBody {
+$height: calc(100vh - 56px);
+.SystemUserHomeBody {
   height: $height;
   display: flex;
   align-items: center;
   flex-direction: column;
+  width: 100vw;
 
-  .createOrgContainer {
+  .CreateOrganizationContainer {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 15%;
   }
 
-  .AllOrgsContainer {
+  .AllOrganizationsContainer {
     height: 80%;
     width: 80%;
   }

@@ -1,0 +1,22 @@
+
+.SystemUserHomeBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 5%;
+  
+  .OrganizationsContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 20%); 
+    grid-template-rows: repeat(auto-fill, 30%);
+    grid-gap: 6.6%;
+    height: 100%;
+  }
+
+  .OrganizationSearch{
+    width: 40%;
+  }
+}

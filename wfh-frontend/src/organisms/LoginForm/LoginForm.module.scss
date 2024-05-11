@@ -1,0 +1,69 @@
+.LoginContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  height: 60%;
+  background-color: rgb(237, 237, 237);
+  border-radius: 5%;
+  padding: 2%;
+  box-sizing: content-box;
+
+  .UpperContainer {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 30%;
+    .UserSelection {
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      Button {
+        min-width: 35%;
+      }
+    }
+  }
+
+  .Underline {
+    background-color: gray;
+    height: 3px;
+    border-radius: 3px;
+    width: 30%;
+  }
+
+  form {
+    display: flex;
+    height: 70%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6%;
+    width: 80%;
+
+    .OtpContainer {
+      height: 30%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10%;
+      justify-content: center;
+      width: 100%;
+
+      label {
+        margin-left: 2%;
+      }
+
+      .OtpButton{
+        background-color: rgb(255, 227, 134);
+      }
+    }
+  }
+}
+
+

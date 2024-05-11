@@ -1,12 +1,15 @@
+//components
 import NavBar from "../../molecules/NavBar/NavBar";
 import RegisterForm from "../../organisms/RegisterForm/RegisterForm";
-import "./RegisterPage.scss";
+
+//styles
+import styles from "./RegisterPage.module.scss";
 
 const RegisterPage = () => {
   return (
     <>
       <NavBar />
-      <div className="LoginPageBody">
+      <div className={styles.RegisterPageBody}>
         <RegisterForm />
       </div>
     </>

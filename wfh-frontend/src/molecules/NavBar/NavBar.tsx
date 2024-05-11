@@ -1,14 +1,18 @@
-import "./NavBar.scss";
+//modules
+import { useNavigate } from "react-router-dom";
+
+//library components
 import { Navbar, Nav } from "rsuite";
 import { Others } from "@rsuite/icons";
 import "rsuite/dist/rsuite.min.css";
-import { useNavigate } from "react-router-dom";
+
+//styles
+import styles from "./NavBar.module.scss";
 
 const NavBar = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <Navbar appearance="default">
+      <Navbar className={styles.Navbar} appearance="default">
         <Navbar.Brand>
           <b>WFH</b>
         </Navbar.Brand>
@@ -23,7 +27,6 @@ const NavBar = () => {
           </Nav.Item>
         </Nav>
       </Navbar>
-    </div>
   );
 };
 

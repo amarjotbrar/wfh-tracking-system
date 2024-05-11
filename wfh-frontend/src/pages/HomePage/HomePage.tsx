@@ -1,27 +1,29 @@
-//molecules
-import RegisterCard from "../../molecules/RegisterCard/RegisterCard";
-import LoginCard from "../../molecules/LoginCard/LoginCard";
+//components
+import RegisterCard from "../../molecules/RegisterSection/RegisterCard";
+import LoginCard from "../../molecules/LoginSection/LoginCard";
 import NavBar from "../../molecules/NavBar/NavBar";
 
 //css
-import "./HomePage.scss";
+import styles from "./HomePage.module.scss";
 
 
 const HomePage = () => {
   return (
     <>
       <NavBar />
-      <div className="WelcomeContainer">
+      <div className={styles.WelcomeContainer}>
         <h2>Welcome to</h2>
-        <h2 className="Focused">"Work From Home Tracking System"</h2>
+        <h2 className={styles.Focused}>"Work From Home Tracking System"</h2>
       </div>
-      <div className="HomeBody">
-        <div className="Left">
+
+      <div className={styles.HomeBody}>
+        <div className={styles.Left}>
           <RegisterCard />
         </div>
-        <div className="Separator"></div>
 
-        <div className="Right">
+        <div className={styles.Separator}></div>
+
+        <div className={styles.Right}>
           <LoginCard />
         </div>
       </div>

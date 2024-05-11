@@ -1,9 +1,12 @@
+//modules
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+//components
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import HomePage from "./pages/HomePage/HomePage";
-import SysUserHome from "./pages/SysUserHome/SysUserHome";
-import OrgUserHome from "./pages/OrgUserHome/OrgUserHome";
+import SystemUserHome from "./pages/SystemUserHome/SystemUserHome";
+import OrganizationUserHome from "./pages/OrganizationUserHome/OrganizationUserHome";
 
 function AppRoutes() {
   return (
@@ -12,8 +15,8 @@ function AppRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/sys/home" element={<SysUserHome />}></Route>
-        <Route path="/org/home" element={<OrgUserHome />}></Route>
+        <Route path="/sys/home" element={<SystemUserHome />}></Route>
+        <Route path="/org/home" element={<OrganizationUserHome />}></Route>
       </Routes>
     </BrowserRouter>
   );

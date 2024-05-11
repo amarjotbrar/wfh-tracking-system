@@ -1,8 +1,8 @@
-$height: calc(97vh - 56px);
-
-.LoginPageBody {
+$height: calc(100vh - 56px);
+.RegisterPageBody {
   display: flex;
   align-items: center;
   justify-content: center;
   height: $height;
+  width: 100vw;
 }

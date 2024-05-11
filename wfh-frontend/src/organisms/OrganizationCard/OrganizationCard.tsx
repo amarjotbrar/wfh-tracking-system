@@ -1,5 +1,8 @@
-import "./OrgCard.scss";
+//library components
 import { Button } from "rsuite";
+
+//styles
+import styles from "./OrganizationCard.module.scss";
 
 const OrgCard = ({ id, name, maxWfhDays}: OrgCardProps) => {
 
@@ -25,7 +28,7 @@ const OrgCard = ({ id, name, maxWfhDays}: OrgCardProps) => {
   }
 
   return (
-    <div key={id} className="col-3">
+    <div key={id} className={styles.CardBody}>
       <div className="card">
         <div className="card-body">
           <h5 className="card-title">{name}</h5>

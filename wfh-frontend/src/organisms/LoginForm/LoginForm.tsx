@@ -1,8 +1,15 @@
-import { Button, Input } from "rsuite";
-import "./LoginForm.scss";
+//modules
 import { useState } from "react";
-import "./types.d.ts";
 import { useNavigate } from "react-router-dom";
+
+//library components
+import { Button, Input } from "rsuite";
+
+//typings
+import "./types.d.ts";
+
+//styles
+import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const [user, setUser] = useState("System");
@@ -23,15 +30,11 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="LoginContainerBody">
-      <div className="ErrorContainer">
-
-        </div>
-        <div className={"LoginContainer " + user}>
-          <div className="upperContainer">
+        <div className={styles.LoginContainer}>
+          <div className={styles.UpperContainer}>
             <h3>Login</h3>
-            <div className="underline"></div>
-            <div className="userSelection">
+            <div className={styles.Underline}></div>
+            <div className={styles.UserSelection}>
               <Button
                 size="lg"
                 onClick={() => {
@@ -70,7 +73,7 @@ const LoginForm = () => {
               }}
             ></Input>
 
-            <div className="otpContainer">
+            <div className={styles.OtpContainer}>
               <Input
                 type="text"
                 onChange={(e: InputFeild) => {
@@ -78,7 +81,7 @@ const LoginForm = () => {
                 }}
                 placeholder="OTP"
               ></Input>
-              <Button appearance="default">Get OTP</Button>
+              <Button className={styles.OtpButton} appearance="default">Get OTP</Button>
             </div>
 
             <Button type="submit" appearance="primary" size="lg">
@@ -86,7 +89,6 @@ const LoginForm = () => {
             </Button>
           </form>
         </div>
-    </div>
   );
 };
 

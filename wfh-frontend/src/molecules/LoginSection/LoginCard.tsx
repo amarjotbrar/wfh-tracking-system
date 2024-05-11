@@ -1,10 +1,15 @@
-import { Button } from "rsuite";
-import "./LoginCard.scss";
+//modules
 import { Link } from "react-router-dom";
+
+//library components
+import { Button } from "rsuite";
+
+//styles
+import styles from "./LoginCard.module.scss";
 
 const LoginCard = () => {
   return (
-    <div className="CardContainer">
+    <div className={styles.CardContainer}>
       <h3>Already a User?</h3>
       <p>
         <b>Welcome back!</b> Sign in here to resume your work-from-home journey,

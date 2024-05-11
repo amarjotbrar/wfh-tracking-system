@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateOrgForm = () => {
+const CreateOrganizationForm = () => {
   const [popup, setPopup] = useState(true);
   const [org_name, setOrg] = useState("");
   const [name, setName] = useState("");
@@ -113,4 +113,4 @@ const CreateOrgForm = () => {
   );
 };
 
-export default CreateOrgForm;
+export default CreateOrganizationForm;

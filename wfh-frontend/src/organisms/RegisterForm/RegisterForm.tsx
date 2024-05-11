@@ -1,8 +1,13 @@
-import { Button, Input } from "rsuite";
-import "./RegisterForm.scss";
+//modules
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+
+//library components
 import { ToastContainer, toast } from "react-toastify";
+import { Button, Input } from "rsuite";
+
+//styles
+import styles from "./RegisterForm.module.scss";
 
 const RegisterForm = () => {
   const [user, setUser] = useState("System");
@@ -129,88 +134,86 @@ const RegisterForm = () => {
 
   return (
     <>
-    <div className="RegisterContainerBody">
-      <div className={"RegisterContainer " + user}>
-      <h3>Register</h3>
-      <div className="underline"></div>
-      <div className="userSelection">
-        <Button
-          size="lg"
-          onClick={() => {
-            setUser("System");
-          }}
-          appearance={user == "System" ? "primary" : "default"}
-        >
-          System
-        </Button>
-        <Button
-          size="lg"
-          onClick={() => {
-            setUser("Organization");
-          }}
-          appearance={user == "Organization" ? "primary" : "default"}
-        >
-          Organization
-        </Button>
-      </div>
-
-      <form onSubmit={user == "System" ? validateSys : validateOrg}>
-        <Input
-          type="text"
-          placeholder="First Name"
-          onChange={(e: InputFeild) => {
-            setFirstname(e);
-          }}
-        ></Input>
-        <Input
-          type="text"
-          placeholder="Last Name"
-          onChange={(e: InputFeild) => {
-            setLastname(e);
-          }}
-        ></Input>
-        <Input
-          type="email"
-          placeholder="E-mail"
-          onChange={(e: InputFeild) => {
-            setEmail(e);
-          }}
-        ></Input>
-        <Input
-          type="text"
-          disabled={user == "System" ? true : false}
-          placeholder="Organization"
-          onChange={(e: InputFeild) => {
-            setOrg(e);
-          }}
-        ></Input>
-
-        <div className="dateContainer">
-          <label className="form-label">Date of Birth</label>
-          <Input
-            type="date"
-            onChange={(e: InputFeild) => {
-              setDOB(e);
+      <div className={styles.RegisterContainer}>
+        <h3>Register</h3>
+        <div className={styles.Underline}></div>
+        <div className={styles.UserSelection}>
+          <Button
+            size="lg"
+            onClick={() => {
+              setUser("System");
             }}
-          ></Input>
+            appearance={user == "System" ? "primary" : "default"}
+          >
+            System
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => {
+              setUser("Organization");
+            }}
+            appearance={user == "Organization" ? "primary" : "default"}
+          >
+            Organization
+          </Button>
         </div>
 
-        <div className="dateContainer">
-          <label className="form-label">Date of Joining</label>
+        <form onSubmit={user == "System" ? validateSys : validateOrg}>
           <Input
+            type="text"
+            placeholder="First Name"
+            onChange={(e: InputFeild) => {
+              setFirstname(e);
+            }}
+          ></Input>
+          <Input
+            type="text"
+            placeholder="Last Name"
+            onChange={(e: InputFeild) => {
+              setLastname(e);
+            }}
+          ></Input>
+          <Input
+            type="email"
+            placeholder="E-mail"
+            onChange={(e: InputFeild) => {
+              setEmail(e);
+            }}
+          ></Input>
+          <Input
+            type="text"
             disabled={user == "System" ? true : false}
-            type="date"
+            placeholder="Organization"
             onChange={(e: InputFeild) => {
-              setDOJ(e);
+              setOrg(e);
             }}
           ></Input>
-        </div>
 
-        <Button type="submit" appearance="primary" size="lg">
-          Submit
-        </Button>
-      </form>
-      </div>
+          <div className={styles.DateContainer}>
+            <label className="form-label">Date of Birth</label>
+            <Input
+              type="date"
+              onChange={(e: InputFeild) => {
+                setDOB(e);
+              }}
+            ></Input>
+          </div>
+
+          <div className={styles.DateContainer}>
+            <label className="form-label">Date of Joining</label>
+            <Input
+              disabled={user == "System" ? true : false}
+              type="date"
+              onChange={(e: InputFeild) => {
+                setDOJ(e);
+              }}
+            ></Input>
+          </div>
+
+          <Button type="submit" appearance="primary" size="lg">
+            Submit
+          </Button>
+        </form>
       </div>
     <ToastContainer/>
     </>

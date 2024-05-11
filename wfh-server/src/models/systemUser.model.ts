@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import { boolean } from "zod";
+const KEY = "1234"
 
-const OrganizationUserSchema = new mongoose.Schema({
+const systemUserSchema = new mongoose.Schema({
     firstName:{
         type:String,
         required:true
@@ -14,25 +17,18 @@ const OrganizationUserSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
-    org :{
-        type:String,
-        required: true
-    },
     dob :{
-        type:String,
+        type:Date,
         required: true
     },
-    doj :{
-        type:String,
-        required: true
-    },
-    isVerified :{
+    isVerified : {
         type: Boolean,
         required: true
     }
-
 }, {timestamps:true});
 
-const OrganizationUserModel = mongoose.model('OrganizationUser', OrganizationUserSchema);
+//generate token
 
-export {OrganizationUserModel};
+const systemUserModel = mongoose.model('SystemUser', systemUserSchema);
+
+export {systemUserModel};

@@ -1,34 +1,12 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import router from "./routes/main.js";
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(cors());
-app.use(cookieParser());
-
-app.use('/', router)
+import connectToMongoDb from './database/db.js';
+import App from './app.js';
+import routes from './routes/main.js';
 
 dotenv.config();
 
-async function connectToMongoDB(connectionString: any){
-    await mongoose.connect(connectionString);
-    console.log('Connected to MongoDB.');
-}
+connectToMongoDb(process.env.URI);
 
-try {
-    await connectToMongoDB(process.env.URI);
-} catch (error) {
-    console.log("Error connecting to DB: ", error);
-}
-
-const PORT = process.env.PORT;
-
-app.listen(PORT, ()=>{
-    console.log(`App is listening on port ${PORT}`);
-});
+const app = new App([new routes()])
+app.listen();

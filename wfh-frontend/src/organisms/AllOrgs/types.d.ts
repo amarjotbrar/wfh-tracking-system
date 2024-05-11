@@ -3,3 +3,10 @@ type OrganizationData = {
   name: string;
   maxWfhDays: number;
 };
+
+
+
+
+
+
+

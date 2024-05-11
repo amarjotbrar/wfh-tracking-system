@@ -1,4 +1,4 @@
-type SystemUser = {
+type systemUser = {
     firstName: String,
     lastName: String,
     email: String,
@@ -6,7 +6,7 @@ type SystemUser = {
     isVerified: boolean,
 }
 
-type OrganizationUser = {
+type organizationUser = {
     firstName: String,
     lastName: String,
     email: String,
@@ -20,4 +20,9 @@ type orgType = {
     org_name: String,
     name: String,
     maxWfhDays: number,
+}
+
+type systemUserLogin = {
+    email: String,
+    otp: String
 }

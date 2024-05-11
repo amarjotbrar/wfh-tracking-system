@@ -1,7 +1,11 @@
+//molecules
 import RegisterCard from "../../molecules/RegisterCard/RegisterCard";
 import LoginCard from "../../molecules/LoginCard/LoginCard";
-import "./HomePage.scss";
 import NavBar from "../../molecules/NavBar/NavBar";
+
+//css
+import "./HomePage.scss";
+
 
 const HomePage = () => {
   return (

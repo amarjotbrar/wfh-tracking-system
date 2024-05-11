@@ -1,59 +1,85 @@
 import "./CreateOrgForm.scss";
 import { useState } from "react";
 import { Modal, Button, Input } from "rsuite";
-import { SystemUserServices } from "../../services/index";
+import { ToastContainer, toast } from "react-toastify";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateOrgForm = () => {
   const [popup, setPopup] = useState(true);
   const [org_name, setOrg] = useState("");
   const [name, setName] = useState("");
-  const [maxWfhDays, SetMaxWfhDays] = useState(0);
+  const [maxWfhDays, SetMaxWfhDays] = useState(-1);
   const [error, setError] = useState("");
 
   const handleSubmit = async (e: FormSubmit) => {
     e.preventDefault();
 
     const addOrg = { org_name, name, maxWfhDays};
+    console.log(addOrg);
 
-    const response = await SystemUserServices.CreateOrganization(addOrg);
+    const response = await fetch("http://localhost:5000/sys/createorg", {
+      method: "POST",
+      body: JSON.stringify(addOrg),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const result = await response.json();
 
     if (!response.ok) {
-      console.log(result.error);
       setError(result.error);
+      console.log(error);
+      toast.error(result.error, {
+        position: "top-right"
+        });
     }
 
     if (response.ok) {
-      setError("Created Successfully!");
+      toast.success('Created Successfulyy!', {
+        position: "top-right"
+        });
       setTimeout(() => {
         setError("");
         setPopup(!popup);
-      }, 3000);
+      }, 300);
     }
   };
+
+  const validateForm = async (e: FormSubmit) => {
+    e.preventDefault();
+            if (!org_name.trim() || !name.trim() || !maxWfhDays.toString().trim()){
+                setError("Fill all felids");
+                console.log(error);
+                toast.error("Fill all Feilds!", {
+                  position: "top-right"
+                  });
+                return;
+          }
+          else if(maxWfhDays < 0)
+          {
+            setError("Enter valid WFH Days!");
+            toast.error("Enter valid WFH days!")
+            return;
+          }
+         else handleSubmit(e);
+    }
 
   const togglePopup = () => {
     setPopup(!popup);
   };
+
+
+
   return (
-    <Modal open={popup} onClose={togglePopup}>
+    <>
+    <Modal open={popup} onClose={togglePopup}  style={{ top: '10%'}}>
       <Modal.Header>
         <Modal.Title>Create Organization</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {error && (
-          <div
-            className={
-              error == "Created Successfully!"
-                ? "alert alert-success"
-                : "alert alert-danger"
-            }
-          >
-            {error}
-          </div>
-        )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={validateForm}>
           <Input
             type="text"
             placeholder="Unique org_name"
@@ -82,6 +108,8 @@ const CreateOrgForm = () => {
         </form>
       </Modal.Body>
     </Modal>
+    <ToastContainer/>
+    </>
   );
 };
 

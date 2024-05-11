@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const OrganizationSchema = new mongoose.Schema({
+const organizationSchema = new mongoose.Schema({
     org_name: {
         type: String,
         unique: true,
@@ -18,5 +18,5 @@ const OrganizationSchema = new mongoose.Schema({
     },
 })
 
-const OrganizationModel = mongoose.model('Organization', OrganizationSchema);
-export {OrganizationModel};
+const organizationModel = mongoose.model('organization', organizationSchema);
+export {organizationModel};

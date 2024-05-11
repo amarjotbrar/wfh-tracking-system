@@ -1,9 +1,17 @@
-import { OrganizationUserModel } from "../models/OrganizationUser.model.mjs";
+import { organizationUserModel } from "../models/organizationUser.model.js";
 
-class OrganizationUserDao {
-    public CreateOrganizationUser = async (userData : OrganizationUser): Promise<[number, any]> => {
+class organizationUserDao {
+    public createOrganizationUser = async (userData : organizationUser): Promise<[number, any]> => {
+
+        const isEmailAlreadyPresent = async (email: String): Promise<boolean> => {
+            const userPresent = await organizationUserModel.findOne({email});
+            return !!userPresent;
+        }
+
+        if(await isEmailAlreadyPresent(userData.email)) return[401, {error: "User already present."}];
+
         try{
-            const userAdded = await OrganizationUserModel.create(userData);
+            const userAdded = await organizationUserModel.create(userData);
             return [200, userAdded];
         } catch (error:any){
             return [401, {error: error.message}];
@@ -11,4 +19,4 @@ class OrganizationUserDao {
     }
 }
 
-export default OrganizationUserDao;
+export default organizationUserDao;

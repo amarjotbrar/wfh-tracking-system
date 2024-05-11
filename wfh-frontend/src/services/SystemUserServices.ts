@@ -19,6 +19,7 @@ export const CreateSystemUser = async (addSysUser: SystemUserData) => {
       },
     });
 };
+
 export const DeleteOrganization = async (id: string) => {
     return await fetch(`http://localhost:5000/sys/deleteorg/${id}`, {
       method: "DELETE",

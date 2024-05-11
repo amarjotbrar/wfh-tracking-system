@@ -1,11 +1,15 @@
-import { SystemUserServices } from "../../services/index";
 import "./OrgCard.scss";
 import { Button } from "rsuite";
 
 const OrgCard = ({ id, name, maxWfhDays}: OrgCardProps) => {
 
   const handleDelete = async(id: string)=> {
-    const response = await SystemUserServices.DeleteOrganization(id);
+    const response = await fetch(`http://localhost:5000/sys/deleteorg/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const result = await response.json();
 
     if(!response.ok){

@@ -2,8 +2,7 @@ import { Button, Input } from "rsuite";
 import "./RegisterForm.scss";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
-import { SystemUserServices, OrganizationUserServices } from "../../services/index";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegisterForm = () => {
   const [user, setUser] = useState("System");
@@ -22,13 +21,21 @@ const RegisterForm = () => {
     e.preventDefault();
     const addSysUser = { firstName, lastName, email, dob, isVerified };
 
-    const response = await SystemUserServices.CreateSystemUser(addSysUser);
+        const response = await fetch("http://localhost:5000/sys/register", {
+        method: "POST",
+        body: JSON.stringify(addSysUser),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
 
     const result = await response.json();
 
     if (!response.ok) {
-      console.log(result.error);
       setError(result.error);
+      console.log(error);
+      toast.error(result.error, {position:"top-right"});
     }
 
     if (response.ok) {
@@ -39,7 +46,7 @@ const RegisterForm = () => {
       setEmail("");
       setDOB("");
 
-      setError("Created Successfully!");
+      toast.success("Created Successfully!", {position:'top-right'});
       setTimeout(() => {
         setError("");
         navigate("/login");
@@ -47,6 +54,7 @@ const RegisterForm = () => {
     }
   };
 
+  const isAdmin = false;
   const handleOrganization = async (e: FormSubmit) => {
     e.preventDefault();
     const addOrgUser = {
@@ -56,16 +64,24 @@ const RegisterForm = () => {
       org,
       dob,
       doj,
+      isAdmin,
       isVerified,
     };
 
-    const response = await OrganizationUserServices.CreateOrganizationUser(addOrgUser);
+    const response = await fetch("http://localhost:5000/org/register", {
+      method: "POST",
+      body: JSON.stringify(addOrgUser),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     const result = await response.json();
 
     if (!response.ok) {
       console.log(result.error);
       setError(result.error);
+      toast.error(result.error, {position:"top-right"})
     }
 
     if (response.ok) {
@@ -77,7 +93,11 @@ const RegisterForm = () => {
       setOrg("");
       setDOB("");
       setDOJ("");
-      navigate("/login");
+      toast.success("Created Successfully!", {position:"top-right"})
+      setTimeout(() => {
+        setError("");
+        navigate("/login");
+      }, 3000);
     }
   };
 
@@ -85,6 +105,7 @@ const RegisterForm = () => {
     e.preventDefault();
     if (!firstName || !lastName || !email || !dob) {
       setError("Fill all the Feilds!");
+      toast.error("Fill all the Feilds!",{position:'top-right'});
       setTimeout(() => {
         setError("");
       }, 3000);
@@ -98,6 +119,7 @@ const RegisterForm = () => {
     e.preventDefault();
     if (!firstName || !lastName || !email || !dob || !doj || !org) {
       setError("Fill all the Feilds!");
+      toast.error("Fill all the Feilds!", {position:'top-right'});
       setTimeout(() => {
         setError("");
       }, 3000);
@@ -106,20 +128,8 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className={"RegisterContainerBody"}>
-      <div className="errorContainer">
-        {error && (
-          <div
-            className={
-              error == "Created Successfully!"
-                ? "alert alert-success"
-                : "alert alert-danger"
-            }
-          >
-            {error}
-          </div>
-        )}
-      </div>
+    <>
+    <div className="RegisterContainerBody">
       <div className={"RegisterContainer " + user}>
       <h3>Register</h3>
       <div className="underline"></div>
@@ -201,7 +211,9 @@ const RegisterForm = () => {
         </Button>
       </form>
       </div>
-    </div>
+      </div>
+    <ToastContainer/>
+    </>
   );
 };
 

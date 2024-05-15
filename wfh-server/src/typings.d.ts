@@ -4,3 +4,8 @@ declare namespace NodeJS {
     }
   }
   
+
+type obj = {
+  name: String;
+  age: Number;
+}

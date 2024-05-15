@@ -1,6 +1,10 @@
 //modules
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState} from "react";
+
+//services
+import systemUserServices from "../../services/systemUserServices";
+import organizationUserServices from "../../services/organizationUserServices";
 
 //library components
 import { ToastContainer, toast } from "react-toastify";
@@ -26,21 +30,21 @@ const RegisterForm = () => {
     e.preventDefault();
     const addSysUser = { firstName, lastName, email, dob, isVerified };
 
-        const response = await fetch("http://localhost:5000/sys/register", {
-        method: "POST",
-        body: JSON.stringify(addSysUser),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
+    const response = await systemUserServices.createSystemUser(addSysUser);
 
     const result = await response.json();
 
     if (!response.ok) {
       setError(result.error);
       console.log(error);
-      toast.error(result.error, {position:"top-right"});
+
+      if(result.code == 501)
+      {
+        for (const element of result.error){
+          toast.error(element);
+        }
+      }
+      else toast.error(result.error);
     }
 
     if (response.ok) {
@@ -59,9 +63,9 @@ const RegisterForm = () => {
     }
   };
 
-  const isAdmin = false;
   const handleOrganization = async (e: FormSubmit) => {
     e.preventDefault();
+    const isAdmin = false;
     const addOrgUser = {
       firstName,
       lastName,
@@ -73,13 +77,7 @@ const RegisterForm = () => {
       isVerified,
     };
 
-    const response = await fetch("http://localhost:5000/org/register", {
-      method: "POST",
-      body: JSON.stringify(addOrgUser),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await organizationUserServices.createOrganizationUser(addOrgUser);
 
     const result = await response.json();
 

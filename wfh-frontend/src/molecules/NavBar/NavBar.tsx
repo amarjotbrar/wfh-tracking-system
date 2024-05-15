@@ -11,6 +11,11 @@ import styles from "./NavBar.module.scss";
 
 const NavBar = () => {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
   return (
       <Navbar className={styles.Navbar} appearance="default">
         <Navbar.Brand>
@@ -19,9 +24,7 @@ const NavBar = () => {
         <Nav>
           <Nav.Item
             icon={<Others />}
-            onClick={() => {
-              navigate("/");
-            }}
+            onClick={handleClick}
           >
             Home
           </Nav.Item>

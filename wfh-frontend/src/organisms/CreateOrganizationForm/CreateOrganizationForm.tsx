@@ -1,9 +1,16 @@
-import "./CreateOrgForm.scss";
+//modules
 import { useState } from "react";
+
+//library components
 import { Modal, Button, Input } from "rsuite";
 import { ToastContainer, toast } from "react-toastify";
 
+//services
+import { createOrganization } from "../../services/systemUserServices/systemUserServices";
+
+//styles
 import 'react-toastify/dist/ReactToastify.css';
+import "./CreateOrgForm.scss";
 
 const CreateOrganizationForm = () => {
   const [popup, setPopup] = useState(true);
@@ -18,13 +25,7 @@ const CreateOrganizationForm = () => {
     const addOrg = { org_name, name, maxWfhDays};
     console.log(addOrg);
 
-    const response = await fetch("http://localhost:5000/sys/createorg", {
-      method: "POST",
-      body: JSON.stringify(addOrg),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await createOrganization(addOrg);
 
     const result = await response.json();
 

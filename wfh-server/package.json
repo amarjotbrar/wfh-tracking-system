@@ -32,7 +32,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/server.js",
-    "dev": "npx tsc -w & nodemon dist/server.js"
+    "dev": "npm run build && nodemon dist/server.js"
   },
   "author": "",
   "license": "ISC",

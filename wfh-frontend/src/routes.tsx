@@ -7,6 +7,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import HomePage from "./pages/HomePage/HomePage";
 import SystemUserHome from "./pages/SystemUserHome/SystemUserHome";
 import OrganizationUserHome from "./pages/OrganizationUserHome/OrganizationUserHome";
+import OrganizationAdminPage from "./pages/OrganizationAdminPage/OrganizationAdminPage";
 
 function AppRoutes() {
   return (
@@ -17,6 +18,7 @@ function AppRoutes() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/sys/home" element={<SystemUserHome />}></Route>
         <Route path="/org/home" element={<OrganizationUserHome />}></Route>
+        <Route path='/org/admin' element={<OrganizationAdminPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

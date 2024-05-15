@@ -26,3 +26,9 @@ type systemUserLogin = {
     email: String,
     otp: String
 }
+
+type organizationUserLogin = {
+    email: String,
+    org_name: String,
+    otp: String
+}

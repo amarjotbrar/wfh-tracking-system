@@ -8,6 +8,7 @@ export type OrganizationUserData = {
     org: string;
     dob: string;
     doj: string;
+    isAdmin: boolean;
     isVerified: boolean;
   };
   
@@ -23,4 +24,8 @@ export type OrganizationUserData = {
     org_name: string;
     name: string;
     maxWfhDays: number;
+  }
+
+  export type resultElement = {
+    message: string;
   }

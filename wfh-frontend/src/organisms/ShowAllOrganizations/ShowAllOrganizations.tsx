@@ -1,5 +1,6 @@
 //modules
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 //library components
 import SearchIcon from '@rsuite/icons/Search';
@@ -11,41 +12,61 @@ import OrgCard from "../OrganizationCard/OrganizationCard";
 
 //styles
 import styles from "./ShowAllOrganizations.module.scss";
+import { showAllOrganizations } from "../../services/systemUserServices/systemUserServices";
 
 const ShowAllOrganizations = () => {
   const [data, setData] = useState<OrganizationData[]>([]);
   const [error, setError] = useState("");
   const [searchOrganization, setSearchOrganization] = useState("");
+  const [debounce , setDebounce] = useState("");
 
-  async function getData() {
-    try {
-      const response = await fetch("http://localhost:5000/sys/showorgs");
+  const navigate = useNavigate();
 
-      if (!response.ok) {
-        const result = await response.json();
-        setError(result.error);
-        toast.error("Unable to Show Organizations!");
-        console.log(error);
-      } else {
-        const result = await response.json();
-        setData(result);
-      }
-    } catch (error) {
-      toast.error("Error fetching data!")
-      console.error("Error fetching data:", error);
-    }
+  const token = localStorage.getItem('token');
+
+  if(!token){
+    navigate('/');
   }
 
+
   useEffect(() => {
+    async function getData() {
+      try {
+        const response = await showAllOrganizations(token);
+  
+        if (!response.ok) {
+          const result = await response.json();
+          setError(result.error);
+          toast.error("Unable to Show Organizations!");
+          console.log(error);
+        } else {
+          const result = await response.json();
+          setData(result);
+        }
+      } catch (error) {
+        toast.error("Error fetching data!")
+        console.error("Error fetching data:", error);
+      }
+    }
     getData();
-  });
+  },[debounce, error, token]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebounce(searchOrganization);
+    }, 1000)
+
+    return () => {
+      clearTimeout(timeout);
+    }
+  }, [searchOrganization])
 
   const handleSearch = (e: InputFeild) => {
     setSearchOrganization(e);
   };
 
   const filteredData = data.filter((org) =>
-    org.name.toLowerCase().includes(searchOrganization.toLowerCase())
+    org.name.toLowerCase().includes(debounce.toLowerCase())
   );
 
   return (
@@ -60,7 +81,7 @@ const ShowAllOrganizations = () => {
           </InputGroup>
         <div className={styles.OrganizationsContainer}>
           {filteredData.map((ele) => (
-            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} />
+            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} org_name={ele.org_name}/>
           ))}
         </div>
       </div>

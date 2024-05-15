@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-const organizationUserValidator = z.object({
+export const organizationUserValidator = z.object({
     firstName: z.string({ required_error: "First Name is required!" }).trim().min(3, { message: "First name should be 3 characters" }),
     lastName: z.string({ required_error: "Last Name is required!" }).trim().min(3, { message: "Last name should be 3 characters" }),
     org: z.string({required_error: "Organization is required!"}),
@@ -9,6 +9,3 @@ const organizationUserValidator = z.object({
     doj: z.string({required_error: "Doj is required!"}),
     isVerified: z.boolean({ required_error: "Doesn't have verified token!" }),
 });
-
-
-export {organizationUserValidator};

@@ -1,0 +1,6 @@
+$height: calc(100vh - 56px);
+.OrganizationAdminPage {
+  display: flex;
+  justify-content: space-around;
+  height: $height;
+}

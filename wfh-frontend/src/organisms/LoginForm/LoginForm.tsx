@@ -3,7 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //library components
-import { Button, Input } from "rsuite";
+import { Button, Input, Loader } from "rsuite";
+import {toast, ToastContainer} from 'react-toastify';
+
+//services
+import { loginOrganizationUser } from "../../services/organizationUserServices/organizationUserServices.ts";
+import { loginSystemUser } from "../../services/systemUserServices/systemUserServices.ts";
+import { organizationUserOtp, systemUserOtp } from "../../services/otpServices/otpServices.ts";
 
 //typings
 import "./types.d.ts";
@@ -13,23 +19,97 @@ import styles from "./LoginForm.module.scss";
 
 const LoginForm = () => {
   const [user, setUser] = useState("System");
-  const [org, setOrg] = useState("");
+  const [org_name, setOrg] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [load, setLoad] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSystem = () => {
-    console.log(org, email, otp);
-    navigate("/sys/home");
+  const handleSystem = async (e:FormSubmit) => {
+    e.preventDefault();
+    const loginData = {email, otp};
+    const response = await loginSystemUser(loginData);
+
+    const result = await response.json();
+
+    if(!response.ok)
+    {
+      toast.error(result.error);
+    }
+    else if(response.ok)
+    {
+      console.log(result.token);
+      localStorage.setItem('token', result.token);
+      toast.success(result.message, {autoClose:2000});
+      setLoad(true);
+      const timeoutId = setTimeout(() => {
+        setLoad(false);
+        navigate("/sys/home");
+      }, 2000);
+
+      timeoutId;
+    }
   };
 
-  const handleOrganization = () => {
-    console.log(org, email, otp);
-    navigate("/org/home");
+  const handleOrganization = async (e:FormSubmit) => {
+    e.preventDefault();
+    const loginData = {email,org_name,  otp};
+    const response = await loginOrganizationUser(loginData);
+
+    const result = await response.json();
+
+    if(!response.ok)
+    {
+      toast.error(result.error);
+    }
+    else if(response.ok)
+    {
+      toast.success(result.message, {autoClose:2000});
+      setLoad(true);
+      const timeoutId = setTimeout(() => {
+        setLoad(false);
+        navigate("/org/home");
+      }, 2000);
+
+      timeoutId;
+    }
   };
+
+  const handleOrgOtp = async () => {
+    const orgUserLoginData = {email, org_name}
+    const response = await organizationUserOtp(orgUserLoginData);
+
+    const result = await response.json();
+    if(response.ok)
+    {
+      toast.success("Otp Sent!");
+    }
+    if(!response.ok)
+    {
+      toast.error(result.error);
+    }
+  }
+
+  const handleSysOtp = async(e: ButtonClick) => {
+      e.preventDefault();
+      const response = await systemUserOtp({email});
+
+      const result = await response.json();
+      if(response.ok)
+      {
+        console.log(result);
+        toast.success("Otp Sent!");
+      }
+      if(!response.ok)
+      {
+        console.log(result.error);
+        toast.error(result.error);
+      }
+  }
 
   return (
+    <>
         <div className={styles.LoginContainer}>
           <div className={styles.UpperContainer}>
             <h3>Login</h3>
@@ -62,14 +142,14 @@ const LoginForm = () => {
               type="text"
               placeholder="Organization"
               onChange={(e: InputFeild) => {
-                setOrg(e.target.value);
+                setOrg(e);
               }}
             ></Input>
             <Input
               type="email"
               placeholder="E-mail"
               onChange={(e: InputFeild) => {
-                setEmail(e.target.value);
+                setEmail(e);
               }}
             ></Input>
 
@@ -77,11 +157,11 @@ const LoginForm = () => {
               <Input
                 type="text"
                 onChange={(e: InputFeild) => {
-                  setOtp(e.target.value);
+                  setOtp(e);
                 }}
                 placeholder="OTP"
               ></Input>
-              <Button className={styles.OtpButton} appearance="default">Get OTP</Button>
+              <Button type="button" className={styles.OtpButton} appearance="default" onClick={user === "System" ? handleSysOtp : handleOrgOtp}>Get OTP</Button>
             </div>
 
             <Button type="submit" appearance="primary" size="lg">
@@ -89,6 +169,9 @@ const LoginForm = () => {
             </Button>
           </form>
         </div>
+        <ToastContainer/>
+        {load ? <Loader backdrop content="Redirecting to Home Page...." vertical />: <></>}
+      </>
   );
 };
 

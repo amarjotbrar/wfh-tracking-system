@@ -1,13 +1,22 @@
 import styles from "./OrganizationAdminPage.module.scss";
 import NavBar from "../../molecules/NavBar/NavBar";
+import {ToastContainer} from "react-toastify";
+import AdminDashboard from "../../organisms/AdminDashboard/AdminDashboard";
+import { useState } from "react";
 
 const OrganizationAdminPage = () => {
+  const [org_name, setOrgname] = useState("");
+
+  const handleOrgName = (name: string) => {
+    setOrgname(name.toUpperCase());
+  }
   return (
     <>
-      <NavBar />
-      <div className={styles.OrganizationAdminPage}>
-        <h1>This is Admin Page</h1>
-      </div>
+      <NavBar NavText={"Organization Admin " + org_name}/>
+        <div className={styles.AdminPageBody}>
+          <AdminDashboard handleOrgName = {handleOrgName}/>
+        </div> 
+      <ToastContainer/>
     </>
   );
 };

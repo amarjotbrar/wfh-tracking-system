@@ -12,6 +12,6 @@ const otpSchema = new mongoose.Schema({
     },
 });
 
-const otpModel = mongoose.model('otpModel', otpSchema);
+const otpModel = mongoose.model('otp', otpSchema);
 
 export {otpModel};

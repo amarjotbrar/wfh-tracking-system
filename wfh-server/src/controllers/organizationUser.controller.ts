@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import organizationUserServices from "../services/organizationUserServices.js";
 import otpServices from "../services/otpServices.js";
+import wfhRequestDao from "../dao/wfhRequestDao.js";
 
 class organizationUserController{
     private organizationUserServiceInstance = new organizationUserServices();
@@ -24,6 +25,13 @@ class organizationUserController{
         const [status, response] = await this.organizationUserServiceInstance.verifyLogin(userData);
         res.status(status).json(response);
     }
+
+    public creteRequest = async (req: Request, res: Response): Promise<any> =>{
+        const reqData: wfhRequestData = req.body;
+        const [status, response] = await this.organizationUserServiceInstance.createRequest(reqData);
+        res.status(status).json(response);
+    }
+
 }
 
 export default organizationUserController;

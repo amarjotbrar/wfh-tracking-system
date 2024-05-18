@@ -1,11 +1,15 @@
 import mongoose from "mongoose";
 
 const wfhRequestSchema = new mongoose.Schema({
-    requestBy:{
+    firstName:{
         type: String,
         required: true,
     },
-    organization:{
+    email:{
+        type: String,
+        required: true
+    },
+    org_name:{
         type: String,
         required: true,
     },
@@ -13,9 +17,13 @@ const wfhRequestSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    details: {
+        type: String
+    },
     isApproved:{
         type: String,
-        required: true
+        required: true,
+        default: "Pending"
     }
 });
 

@@ -1,0 +1,48 @@
+.DashboardBody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2{
+        margin-top: 1%;
+    }
+
+    .ButtonsContainer{
+        height: 15%;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        
+        .ButtonActive{
+            min-width: 20%;
+        }
+        .ButtonInactive{
+            min-width: 20%;
+            opacity: 50%;
+        }
+    }
+
+    .RequestsTable{
+        padding: 1%;
+        box-sizing: border-box;
+        width: 80%;
+        border: 0.1rem;
+        height: 70%;
+        border-width: 0.2rem 0 0 0;
+        border-style: solid;
+        border-color: gray;
+
+        .ResponseButtons{
+            margin-top: -4%;
+            width: 80%;
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}
+
+
+

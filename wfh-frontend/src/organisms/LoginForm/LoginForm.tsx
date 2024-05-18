@@ -35,13 +35,12 @@ const LoginForm = () => {
 
     if(!response.ok)
     {
-      toast.error(result.error);
+      toast.error(result.data.error);
     }
     else if(response.ok)
     {
-      console.log(result.token);
-      localStorage.setItem('token', result.token);
-      toast.success(result.message, {autoClose:2000});
+      localStorage.setItem('token', result.data.response);
+      toast.success("Verified Successfully", {autoClose:2000});
       setLoad(true);
       const timeoutId = setTimeout(() => {
         setLoad(false);
@@ -60,20 +59,35 @@ const LoginForm = () => {
     const result = await response.json();
 
     if(!response.ok)
-    {
-      toast.error(result.error);
-    }
-    else if(response.ok)
-    {
-      toast.success(result.message, {autoClose:2000});
-      setLoad(true);
-      const timeoutId = setTimeout(() => {
-        setLoad(false);
-        navigate("/org/home");
-      }, 2000);
+      {
+        toast.error(result.data.error);
+      }
+      else if(response.ok)
+      {
+        localStorage.setItem('token', result.data.response.token);
+        const userType = result.data.response.userType;
 
-      timeoutId;
-    }
+        if(userType === "admin"){
+          toast.success("Verified Admin Successfully", {autoClose:2000});
+          setLoad(true);
+          const timeoutId = setTimeout(() => {
+            setLoad(false);
+            navigate("/org/admin");
+          }, 2000);
+    
+          timeoutId;
+        }
+        else if(userType === "user"){
+          toast.success("Verified User Successfully", {autoClose:2000});
+          setLoad(true);
+          const timeoutId = setTimeout(() => {
+            setLoad(false);
+            navigate("/org/home");
+          }, 2000);
+    
+          timeoutId;
+        }
+      }
   };
 
   const handleOrgOtp = async () => {
@@ -87,7 +101,7 @@ const LoginForm = () => {
     }
     if(!response.ok)
     {
-      toast.error(result.error);
+      toast.error(result.data.error);
     }
   }
 
@@ -98,13 +112,11 @@ const LoginForm = () => {
       const result = await response.json();
       if(response.ok)
       {
-        console.log(result);
         toast.success("Otp Sent!");
       }
       if(!response.ok)
       {
-        console.log(result.error);
-        toast.error(result.error);
+        toast.error(result.data.error);
       }
   }
 

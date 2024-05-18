@@ -2,7 +2,7 @@ export type OrganizationUserData = {
   firstName: string;
   lastName: string;
   email: string;
-  org: string;
+  org_name: string;
   dob: string;
   doj: string;
   isVerified: boolean;
@@ -20,6 +20,7 @@ export type OrganizationData = {
   org_name: string;
   name: string;
   maxWfhDays: number;
+  isActive: boolean;
 }
 
 export type OrganizationLoginData = {
@@ -40,4 +41,8 @@ export type OrganizationOtp = {
 
 export type SystemOtp = {
   email: string
+}
+
+interface rejectData{
+  reason:string
 }

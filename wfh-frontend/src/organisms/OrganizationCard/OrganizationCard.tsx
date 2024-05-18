@@ -1,11 +1,10 @@
 //modules
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 //library components
 import { Button } from "rsuite";
 
 //components
-import ShowOrganizationUsers from "../ShowOrganizationUsers/ShowOrganizationUsers";
 
 //services
 import { deleteOrganization } from "../../services/systemUserServices/systemUserServices";
@@ -13,28 +12,25 @@ import { deleteOrganization } from "../../services/systemUserServices/systemUser
 //styles
 import styles from "./OrganizationCard.module.scss";
 
-const OrgCard = ({ id, name, maxWfhDays, org_name}: OrgCardProps) => {
-
-  const [showUsers, setShowUsers] = useState(false);
+const OrgCard = ({ id, name, maxWfhDays, org_name, changeShowUsers, toastnotification}: OrgCardProps) => {
 
   const handleDelete = async(id: string)=> {
     const response = await deleteOrganization(id);
     const result = await response.json();
 
+
     if(!response.ok){
-      console.log(result.error);
-      return result.error;
+      toastnotification(result.data.error, false);
     }
 
     if(response.ok)
       {
-        console.log(response);
-        return result;
+        toastnotification(result.data.response, true);
       }
   }
 
-  const handleShowUsers = () =>{
-    setShowUsers(!showUsers);
+  const handleShowUsers = (org_name: string) =>{
+    changeShowUsers(org_name);
   }
 
   useEffect(()=>{
@@ -51,13 +47,12 @@ const OrgCard = ({ id, name, maxWfhDays, org_name}: OrgCardProps) => {
             WFH Days: {maxWfhDays}
           </h6>
           <div className={styles.Buttons}>
-            <Button appearance="primary" onClick={() => handleShowUsers()}>Show Users</Button>
+            <Button appearance="primary" onClick={() => handleShowUsers(org_name)}>Show Users</Button>
             <Button appearance="primary" color="red" onClick={() => handleDelete(id)}>Delete</Button>
           </div>
         </div>
       </div>
     </div>
-    {showUsers ? <ShowOrganizationUsers org_name= {org_name} close = {handleShowUsers}/>: <></>}
     </>
   );
 };

@@ -16,7 +16,6 @@ const SystemUserHome = () => {
   const [popup, setPopup] = useState(false);
 
   const togglePopup = () => {
-    console.log("hello");
     setPopup(!popup);
   };
 

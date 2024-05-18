@@ -5,7 +5,7 @@ export type OrganizationUserData = {
     firstName: string;
     lastName: string;
     email: string;
-    org: string;
+    org_name: string;
     dob: string;
     doj: string;
     isAdmin: boolean;

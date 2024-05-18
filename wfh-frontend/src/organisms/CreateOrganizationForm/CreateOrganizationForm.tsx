@@ -21,17 +21,15 @@ const CreateOrganizationForm = () => {
 
   const handleSubmit = async (e: FormSubmit) => {
     e.preventDefault();
-
-    const addOrg = { org_name, name, maxWfhDays};
-    console.log(addOrg);
+    const isActive = true;
+    const addOrg = { org_name, name, maxWfhDays, isActive};
 
     const response = await createOrganization(addOrg);
 
     const result = await response.json();
 
     if (!response.ok) {
-      setError(result.error);
-      console.log(error);
+      setError(result.data.error);
       toast.error(result.error, {
         position: "top-right"
         });
@@ -70,8 +68,6 @@ const CreateOrganizationForm = () => {
   const togglePopup = () => {
     setPopup(!popup);
   };
-
-
 
   return (
     <>

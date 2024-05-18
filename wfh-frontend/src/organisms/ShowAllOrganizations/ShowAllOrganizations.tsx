@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 //components
 import OrgCard from "../OrganizationCard/OrganizationCard";
+import ShowOrganizationUsers from "../ShowOrganizationUsers/ShowOrganizationUsers";
 
 //styles
 import styles from "./ShowAllOrganizations.module.scss";
@@ -19,6 +20,10 @@ const ShowAllOrganizations = () => {
   const [error, setError] = useState("");
   const [searchOrganization, setSearchOrganization] = useState("");
   const [debounce , setDebounce] = useState("");
+
+  const [showUsers, setShowUsers] = useState(false);
+  const [displayOrganization, setDisplayOrganization] = useState("");
+  const [showToast, setShowtoast] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,12 +41,12 @@ const ShowAllOrganizations = () => {
   
         if (!response.ok) {
           const result = await response.json();
-          setError(result.error);
+          setError(result.data.error);
           toast.error("Unable to Show Organizations!");
           console.log(error);
         } else {
           const result = await response.json();
-          setData(result);
+          setData(result.data.response);
         }
       } catch (error) {
         toast.error("Error fetching data!")
@@ -69,6 +74,21 @@ const ShowAllOrganizations = () => {
     org.name.toLowerCase().includes(debounce.toLowerCase())
   );
 
+  const changeShowUsers = (org_name: string) => {
+    setShowUsers(!showUsers)
+    setDisplayOrganization(org_name);
+  }
+
+  const handlepopup = () => {
+    setShowUsers(!showUsers);
+  }
+
+  const toastnotification = (message: string, type: boolean) => {
+    setShowtoast(!showToast);
+    if(!type)toast.error(message);
+    else toast.success(message);
+  }
+
   return (
     <>
       <div className={styles.SystemUserHomeBody}>
@@ -81,10 +101,11 @@ const ShowAllOrganizations = () => {
           </InputGroup>
         <div className={styles.OrganizationsContainer}>
           {filteredData.map((ele) => (
-            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} org_name={ele.org_name}/>
+            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} org_name={ele.org_name}  changeShowUsers = {changeShowUsers} toastnotification={toastnotification}/>
           ))}
         </div>
       </div>
+      {showUsers ? <ShowOrganizationUsers org_name= {displayOrganization} close = {handlepopup}/>: <></>}
       <ToastContainer/>
     </>
   );

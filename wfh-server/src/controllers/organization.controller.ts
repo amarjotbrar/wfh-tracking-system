@@ -12,17 +12,7 @@ class organizationController{
     }
 
     public showOrganizations = async(req:Request,res:Response):Promise<any> => {
-        const token = req.headers.authorization;
-        
-        console.log(token);
-
-        if(token){ 
-            jwt.verify(token, `${process.env.JWTKEY}`, (err, decoded) => {
-                console.log(err);
-                console.log(decoded);
-            });
-        }
-
+       
         const [status, response] = await this.organizationServiceInstance.getOrganizations();
         res.status(status).json(response);
     }

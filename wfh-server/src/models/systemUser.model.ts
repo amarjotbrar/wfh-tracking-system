@@ -1,7 +1,4 @@
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
-import { boolean } from "zod";
-const KEY = "1234"
 
 const systemUserSchema = new mongoose.Schema({
     firstName:{

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { boolean } from "zod";
 
 const organizationSchema = new mongoose.Schema({
     org_name: {
@@ -16,6 +17,11 @@ const organizationSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+
+    isActive:{
+        type: Boolean,
+        required: true
+    }
 })
 
 const organizationModel = mongoose.model('organization', organizationSchema);

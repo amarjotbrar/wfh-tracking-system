@@ -11,10 +11,9 @@ const organizationUserSchema = new mongoose.Schema({
     },
     email :{
         type:String,
-        unique:true,
         required:true
     },
-    org :{
+    org_name :{
         type:String,
         required: true
     },
@@ -28,7 +27,7 @@ const organizationUserSchema = new mongoose.Schema({
     },
 
     isAdmin:{
-        type: String,
+        type: Boolean,
         required: true
     },
 

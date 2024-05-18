@@ -9,7 +9,7 @@ import "rsuite/dist/rsuite.min.css";
 //styles
 import styles from "./NavBar.module.scss";
 
-const NavBar = () => {
+const NavBar = ({NavText = ""}) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -28,6 +28,7 @@ const NavBar = () => {
           >
             Home
           </Nav.Item>
+          <Nav.Item>{NavText}</Nav.Item>
         </Nav>
       </Navbar>
   );

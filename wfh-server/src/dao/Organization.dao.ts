@@ -12,12 +12,17 @@ class organizationDao {
     }
 
     public showAllOrganizations = async() => {
-        const response = await organizationModel.find();
+        const response = await organizationModel.find({isActive:true});
         return response;
     }
 
-    public deleteOrganization = async(id: String) => {
-        const response = await organizationModel.findByIdAndDelete({_id: id});
+    public deliveOrganization = async(id: String) => {
+        const response = await organizationModel.findByIdAndUpdate(id,{isActive:false});
+        return response;
+    }
+
+    public makeOrganizationLive = async(id: String) => {
+        const response = await organizationModel.findByIdAndUpdate(id, {isActive: true});
         return response;
     }
 }

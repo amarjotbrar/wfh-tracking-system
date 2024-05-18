@@ -10,7 +10,7 @@ type organizationUser = {
     firstName: String,
     lastName: String,
     email: String,
-    org: String,
+    org_name: String,
     dob: Date,
     doj: Date,
     isVerified: boolean
@@ -31,4 +31,17 @@ type organizationUserLogin = {
     email: String,
     org_name: String,
     otp: String
+}
+
+interface createLink {
+    email: String,
+    org_name: String
+}
+
+interface wfhRequestData {
+    firstName: String,
+    email: String,
+    org_name: String,
+    details: String,
+    requestDate: Date
 }

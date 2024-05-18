@@ -1,21 +1,23 @@
 import systemUserDao from "../dao/systemUser.dao.js";
 import otpDao from "../dao/otp.dao.js";
+import organizationUserDao from "../dao/organizatioinUserDao.js";
 import jwt from "jsonwebtoken";
 
 class systemUserServices {
     private systemUserDaoInstance = new systemUserDao();
     private otpDaoInstance = new otpDao();
+    private organizationUserDaoInstance = new organizationUserDao();
 
     public createSystemUser = async(userData: systemUser) : Promise<[number, any]> => {
         const userAlreadyPresent = await this.systemUserDaoInstance.findSystemUser(userData.email);
 
-        if(!!userAlreadyPresent) return[400, {error: "User already present"}];
+        if(!!userAlreadyPresent) return[400, {code: 400, data:{error: "User already present", response: ""}}];
 
         try {
             const userAdded = await this.systemUserDaoInstance.createSystemUser(userData);
-            return[200, userAdded];
+            return[200, {code: 200, data:{error: "", response:userAdded}}];
         } catch (error: any) {
-            return [400, {error: error.message }];
+            return [400, {code: 200, data:{error: error.message ,response: ""}}];
         }
     }
 
@@ -27,11 +29,10 @@ class systemUserServices {
 
             if(!userPresent)
             {
-                return[400, {error: "User not present, Please register First"}];
+                return[400, {code: 400, data:{error: "User not present, Please register First", response: ""}}];
             }
             else
             {
-                console.log("user present");
                 const verifyLogin:any = await this.otpDaoInstance.findUserOtp(email);
 
                 if(verifyLogin.otp == otp)
@@ -39,7 +40,8 @@ class systemUserServices {
                     const token = jwt.sign(
                         {
                             id: verifyLogin._id,
-                            email: verifyLogin.email
+                            email: verifyLogin.email,
+                            userType: "system"
                         },
                         `${process.env.JWTKEY}`,
                         {
@@ -47,15 +49,34 @@ class systemUserServices {
                         }
                     )
 
-                    return [200, {token}];
+                    return [200, {code: 200, data:{error: "", response:token}}];
                 }
                 else
                 {
-                    return [400, {error: "Invalid OTP"}];
+                    return [400, {code: 400, data:{error: "Invalid OTP", response: ""}}];
                 }
             }
         } catch (error) {
-            return [400, {error: "No otp for this User!"}];
+            return [400,{code: 400, data: {error: "No otp for this User!", respone: ""}}];
+        }
+    }
+
+
+    public getOrganizationUsers = async(org_name: string): Promise<[number,any]> => {
+        try {
+            const response = await this.organizationUserDaoInstance.findUsers(org_name);
+            return [200, {code: 400, data:{error: "", response:response}}];
+        } catch (error) {
+            return [400, {code: 400, data: {error: error, response: ""}}];
+        }
+    }
+
+    public makeAdmin = async(id: string): Promise<[number, any]> => {
+        try {
+            const response = await this.organizationUserDaoInstance.makeAdmin(id);
+            return[200, {code: 200, data:{error: "", response:response}}];
+        } catch (error) {
+            return [400, {code: 400, data:{error: error, response: ""}}];
         }
     }
 }

@@ -18,7 +18,7 @@ const RegisterForm = () => {
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
-  const [org, setOrg] = useState("");
+  const [org_name, setOrg] = useState("");
   const [dob, setDOB] = useState("");
   const [doj, setDOJ] = useState("");
   const [error, setError] = useState("");
@@ -35,8 +35,7 @@ const RegisterForm = () => {
     const result = await response.json();
 
     if (!response.ok) {
-      setError(result.error);
-      console.log(error);
+      setError(result.data.error);
 
       if(result.code == 501)
       {
@@ -44,7 +43,7 @@ const RegisterForm = () => {
           toast.error(element);
         }
       }
-      else toast.error(result.error);
+      else toast.error(result.data.error);
     }
 
     if (response.ok) {
@@ -70,7 +69,7 @@ const RegisterForm = () => {
       firstName,
       lastName,
       email,
-      org,
+      org_name,
       dob,
       doj,
       isAdmin,
@@ -82,9 +81,9 @@ const RegisterForm = () => {
     const result = await response.json();
 
     if (!response.ok) {
-      console.log(result.error);
-      setError(result.error);
-      toast.error(result.error, {position:"top-right"})
+      setError(result.data.error);
+      console.log(error);
+      toast.error(result.data.error, {position:"top-right"})
     }
 
     if (response.ok) {
@@ -120,7 +119,7 @@ const RegisterForm = () => {
 
   const validateOrg = async (e: FormSubmit) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !dob || !doj || !org) {
+    if (!firstName || !lastName || !email || !dob || !doj || !org_name) {
       setError("Fill all the Feilds!");
       toast.error("Fill all the Feilds!", {position:'top-right'});
       setTimeout(() => {

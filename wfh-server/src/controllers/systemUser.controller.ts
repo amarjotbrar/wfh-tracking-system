@@ -24,6 +24,18 @@ class systemUserController{
         const [status, response] = await this.systemUserServiceInstance.verifyLogin(userData);
         res.status(status).json(response);
     }
+
+    public findUsers = async (req: Request, res: Response): Promise<any> => {
+        const org_name = req.params.org_name;
+        const [status, response] = await this.systemUserServiceInstance.getOrganizationUsers(org_name);
+        res.status(status).json(response);
+    }
+
+    public makeAdmin = async(req: Request, res: Response): Promise<any> => {
+        const id = req.params.id;
+        const [status, response] = await this.systemUserServiceInstance.makeAdmin(id);
+        res.status(status).json(response);
+    }
 }
 
 export default systemUserController;

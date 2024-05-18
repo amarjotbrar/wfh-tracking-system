@@ -48,6 +48,15 @@ export const showAllOrganizations = async (token: string | null) => {
   });
 }
 
-export const showOrganizationUsers = async (getUsers: {org_name: string}) => {
-  return await fetch(`http://localhost:5000/sys/showusers/ ${getUsers}`);
+export const showOrganizationUsers = async (org_name: string) => {
+  return await fetch(`http://localhost:5000/sys/showusers/${org_name}`);
+}
+
+export const makeAdmin = async(id: string) => {
+  return await fetch(`http://localhost5000/sys/makeadmin/${id}`,{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 }

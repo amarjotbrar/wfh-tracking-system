@@ -12,18 +12,19 @@ import OrgCard from "../OrganizationCard/OrganizationCard";
 import ShowOrganizationUsers from "../ShowOrganizationUsers/ShowOrganizationUsers";
 
 //styles
-import styles from "./ShowAllOrganizations.module.scss";
 import { showAllOrganizations } from "../../services/systemUserServices/systemUserServices";
+import styles from "./ShowAllOrganizations.module.scss";
+import { showOrganizationsProps, OrganizationData } from "./types";
 
-const ShowAllOrganizations = () => {
+const ShowAllOrganizations = ({change}: showOrganizationsProps) => {
   const [data, setData] = useState<OrganizationData[]>([]);
   const [error, setError] = useState("");
   const [searchOrganization, setSearchOrganization] = useState("");
   const [debounce , setDebounce] = useState("");
+  const [deleteOrg, setDeleteOrg] = useState(false);
 
-  const [showUsers, setShowUsers] = useState(false);
+  const [popup, setPopup] = useState(false);
   const [displayOrganization, setDisplayOrganization] = useState("");
-  const [showToast, setShowtoast] = useState(false);
 
   const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const ShowAllOrganizations = () => {
 
 
   useEffect(() => {
-    async function getData() {
+    const getData = async () => {
       try {
         const response = await showAllOrganizations(token);
   
@@ -54,7 +55,7 @@ const ShowAllOrganizations = () => {
       }
     }
     getData();
-  },[debounce, error, token]);
+  },[debounce, error, token, change, deleteOrg]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -74,19 +75,17 @@ const ShowAllOrganizations = () => {
     org.name.toLowerCase().includes(debounce.toLowerCase())
   );
 
-  const changeShowUsers = (org_name: string) => {
-    setShowUsers(!showUsers)
+  const showPopup = (org_name: string) => {
+    setPopup(true)
     setDisplayOrganization(org_name);
   }
 
-  const handlepopup = () => {
-    setShowUsers(!showUsers);
+  const closePopup = () => {
+    setPopup(false);
   }
 
-  const toastnotification = (message: string, type: boolean) => {
-    setShowtoast(!showToast);
-    if(!type)toast.error(message);
-    else toast.success(message);
+  const toggleDelete = () => {
+    setDeleteOrg(!deleteOrg);
   }
 
   return (
@@ -101,11 +100,11 @@ const ShowAllOrganizations = () => {
           </InputGroup>
         <div className={styles.OrganizationsContainer}>
           {filteredData.map((ele) => (
-            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} org_name={ele.org_name}  changeShowUsers = {changeShowUsers} toastnotification={toastnotification}/>
+            <OrgCard key={ele._id} id={ele._id} name={ele.name} maxWfhDays={ele.maxWfhDays} org_name={ele.org_name}  showPopup = {showPopup} toggleDelete = {toggleDelete}/>
           ))}
         </div>
       </div>
-      {showUsers ? <ShowOrganizationUsers org_name= {displayOrganization} close = {handlepopup}/>: <></>}
+      {popup ? <ShowOrganizationUsers org_name= {displayOrganization} closePopup = {closePopup}/>: <></>}
       <ToastContainer/>
     </>
   );

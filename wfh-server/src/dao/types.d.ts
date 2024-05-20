@@ -20,6 +20,7 @@ type orgType = {
     org_name: String,
     name: String,
     maxWfhDays: number,
+    isActive: boolean
 }
 
 type systemUserLogin = {
@@ -38,10 +39,18 @@ interface createLink {
     org_name: String
 }
 
+
 interface wfhRequestData {
+    details: String,
+    requestDate: Date
+}
+
+interface orgUserTokenData {
     firstName: String,
     email: String,
     org_name: String,
-    details: String,
-    requestDate: Date
+}
+
+interface createWfhRequest extends wfhRequestData, orgUserTokenData{
+    
 }

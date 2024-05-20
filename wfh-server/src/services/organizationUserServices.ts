@@ -62,8 +62,9 @@ class organizationUserServices {
                 {
                     const token = jwt.sign(
                         {
-                            id: verifyLogin._id,
-                            email: verifyLogin.email,
+                            id: linkPresent._id,
+                            firstName: linkPresent.firstName,
+                            email: linkPresent.email,
                             userType: userType,
                             org_name: linkPresent.org_name
                         },
@@ -86,18 +87,35 @@ class organizationUserServices {
     }
 
 
-    public createRequest = async(reqData: wfhRequestData): Promise<[number, any]> => {
+    public createRequest = async(reqData: wfhRequestData, userData: orgUserTokenData): Promise<[number, any]> => {
         try{
-            const linkPresent = await this.organizationUserDaoInstance.findLink(reqData.email, reqData.org_name);
+            const linkPresent = await this.organizationUserDaoInstance.findLink(userData.email, userData.org_name);
 
             if(!linkPresent)
             {
                 return [400, {code: 400, data:{error: "No such user in this organization", response:""}}];
             }
-            const createRequest = await this.wfhRequestDaoInstance.createWfhRequest(reqData);
+            
+            const createWfhRequest: createWfhRequest = {
+                email: userData.email,
+                org_name: userData.org_name,
+                requestDate: reqData.requestDate,
+                details: reqData.details,
+                firstName: userData.firstName
+            }
+            const createRequest = await this.wfhRequestDaoInstance.createWfhRequest(createWfhRequest);
             return [200, {code: 200, data:{error: "", response:createRequest}}];
         }
         catch(error: any){
+            return [401, {code: 401, data:{error: error.message, response: ""}}];
+        }
+    }
+
+    public showUserRequests = async(email: String, org_name: String):Promise<[number, any]> => {
+        try {
+            const response = await this.wfhRequestDaoInstance.showUserRequests(org_name, email);
+            return [401, {code: 401, data:{error:"", response: response}}];
+        } catch (error:any) {
             return [401, {code: 401, data:{error: error.message, response: ""}}];
         }
     }

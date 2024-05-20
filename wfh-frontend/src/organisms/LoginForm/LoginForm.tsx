@@ -74,9 +74,9 @@ const LoginForm = () => {
             setLoad(false);
             navigate("/org/admin");
           }, 2000);
-    
           timeoutId;
         }
+
         else if(userType === "user"){
           toast.success("Verified User Successfully", {autoClose:2000});
           setLoad(true);

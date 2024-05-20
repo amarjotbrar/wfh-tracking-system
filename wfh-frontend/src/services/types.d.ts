@@ -46,3 +46,9 @@ export type SystemOtp = {
 interface rejectData{
   reason:string
 }
+
+
+export type createRequestData ={
+  requestDate: string,
+  details: string
+}

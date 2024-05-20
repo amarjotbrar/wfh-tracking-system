@@ -1,11 +1,12 @@
 import { OrganizationData, SystemLoginData, SystemUserData } from "../types";
 
-export const createOrganization = async (addOrgUser: OrganizationData) => {
+export const createOrganization = async (addOrgUser: OrganizationData, token : string) => {
   return await fetch("http://localhost:5000/sys/createorg", {
     method: "POST",
     body: JSON.stringify(addOrgUser),
     headers: {
       "Content-Type": "application/json",
+      "Authorization": token
     },
   });
 };
@@ -21,11 +22,12 @@ export const createSystemUser = async (addSysUser: SystemUserData) => {
     return response;
 };
 
-export const deleteOrganization = async (id: string) => {
+export const deleteOrganization = async (id: string, token: string) => {
     return await fetch(`http://localhost:5000/sys/deleteorg/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": token
       },
     });
 };
@@ -48,15 +50,22 @@ export const showAllOrganizations = async (token: string | null) => {
   });
 }
 
-export const showOrganizationUsers = async (org_name: string) => {
-  return await fetch(`http://localhost:5000/sys/showusers/${org_name}`);
+export const showOrganizationUsers = async (org_name: string, token: string) => {
+  return await fetch(`http://localhost:5000/sys/showusers/${org_name}`,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization" : token
+    }
+  });
 }
 
-export const makeAdmin = async(id: string) => {
-  return await fetch(`http://localhost5000/sys/makeadmin/${id}`,{
-    method: "POST",
+export const makeAdmin = async(id: string, token: string) => {
+  return await fetch(`http://localhost:5000/sys/makeadmin/${id}`,{
+    method: "PATCH",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": token
     }
   });
 }

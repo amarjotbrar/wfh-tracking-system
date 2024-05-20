@@ -2,9 +2,13 @@ import wfhRequestModel from "../models/wfhRequest.model.js";
 
 class wfhRequestDao {
     public showRequests = async (org_name: String) => {
-        console.log(org_name);
         const response = await wfhRequestModel.find({org_name: org_name});
         console.log(response);
+        return response;
+    }
+
+    public showUserRequests = async(org_name: String, email: String) => {
+        const response = await wfhRequestModel.find({org_name: org_name, email: email});
         return response;
     }
 

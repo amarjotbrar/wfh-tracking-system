@@ -6,8 +6,8 @@ class organizationDao {
         return response;
     }
 
-    public createOrganization = async(organizationData: orgType) => {
-        const response = await organizationModel.create(organizationData);
+    public createOrganization = async( { org_name, name, maxWfhDays, isActive }: orgType) => {
+        const response = await organizationModel.create({ org_name, name, maxWfhDays , isActive});
         return response;
     }
 
@@ -24,6 +24,12 @@ class organizationDao {
     public makeOrganizationLive = async(id: String) => {
         const response = await organizationModel.findByIdAndUpdate(id, {isActive: true});
         return response;
+    }
+
+    public checkStatus = async(org_name: String) => {
+        const response = await organizationModel.findOne({org_name: org_name});
+        if(response?.isActive === true) return true;
+        else return false;
     }
 }
 

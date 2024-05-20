@@ -1,5 +1,24 @@
-.modal{
-    align-self: center;
-    width: 70%;
+.modal {
+  align-self: center;
+  width: 80%;
+  top: 15%;
+  display: flex;
+  flex-direction: column;
+
+  .modalBody {
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modalFooter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
+
 

@@ -8,7 +8,7 @@ import organizationAdminController from '../controllers/organizationAdmin.contro
 import zodValidator from '../middleware/validators/zod.validator.js';
 import { organizationUserValidator } from '../middleware/validators/organizationUser.validator.js';
 import { createOrganizationValidator } from '../middleware/validators/systemUser.validator.js';
-import { systemAuthorization} from '../middleware/authMiddleware.js';
+import { adminAuthorization, orgAuthorization, sysAuthorization} from '../middleware/authMiddleware.js';
 import { verifyUser } from '../helpers/verifyUsers.js';
 
 class routes{
@@ -32,13 +32,13 @@ class routes{
     private initializeSystemUserRoutes(prefix: string){
         console.log("System User routes initialized...");
         this.router.post(`${prefix}/register`, this.zodValidator.zodValidator(systemUserValidator), this.systemUserController.createSystemUser);
-        this.router.post(`${prefix}/createorg`, this.zodValidator.zodValidator(createOrganizationValidator), this.organizationController.createOrganization);
-        this.router.get(`${prefix}/showorgs`,systemAuthorization, this.organizationController.showOrganizations);
-        this.router.delete(`${prefix}/deleteorg/:id`, this.organizationController.deleteOrganization);
-        this.router.post(`${prefix}/sendotp`, this.systemUserController.sendOtp);
+        this.router.post(`${prefix}/createorg`,sysAuthorization, this.zodValidator.zodValidator(createOrganizationValidator), this.organizationController.createOrganization);
+        this.router.get(`${prefix}/showorgs`,sysAuthorization, this.organizationController.showOrganizations);
+        this.router.delete(`${prefix}/deleteorg/:id`,sysAuthorization, this.organizationController.deleteOrganization);
+        this.router.post(`${prefix}/sendotp`,this.systemUserController.sendOtp);
         this.router.post(`${prefix}/login`, this.systemUserController.login);
-        this.router.get(`${prefix}/showusers/:org_name`, this.systemUserController.findUsers);
-        this.router.post(`${prefix}/makeadmin/:id`, this.systemUserController.makeAdmin);
+        this.router.get(`${prefix}/showusers/:org_name`,sysAuthorization, this.systemUserController.findUsers);
+        this.router.patch(`${prefix}/makeadmin/:id`,sysAuthorization, this.systemUserController.makeAdmin);
     }
 
     private initializeOrganizationUserRoutes(prefix: string){
@@ -46,14 +46,15 @@ class routes{
         this.router.post(`${prefix}/register`, this.zodValidator.zodValidator(organizationUserValidator),this.organizationUserController.createOrganizationUser);
         this.router.post(`${prefix}/sendotp`, this.organizationUserController.sendOtp);
         this.router.post(`${prefix}/login`, this.organizationUserController.login);
-        this.router.post(`${prefix}/createrequest`, this.organizationUserController.creteRequest);
+        this.router.post(`${prefix}/createrequest`,orgAuthorization, this.organizationUserController.creteRequest);
+        this.router.get(`${prefix}/showrequests`, orgAuthorization, this.organizationUserController.showUserRequests);
     }
 
     private initializeAdminRoutes(prefix: string){
         console.log("Admin routes initialized...")
-        this.router.get(`${prefix}/showrequests/:org_name`, this.organizationAdminControlloer.showRequests);
-        this.router.patch(`${prefix}/approvereq/:id`, this.organizationAdminControlloer.approveRequest);
-        this.router.patch(`${prefix}/rejectreq/:id`, this.organizationAdminControlloer.rejectRequest);
+        this.router.get(`${prefix}/showrequests/:org_name`, adminAuthorization, this.organizationAdminControlloer.showRequests);
+        this.router.patch(`${prefix}/approvereq/:id`,adminAuthorization, this.organizationAdminControlloer.approveRequest);
+        this.router.patch(`${prefix}/rejectreq/:id`, adminAuthorization,this.organizationAdminControlloer.rejectRequest);
     }
 }
 

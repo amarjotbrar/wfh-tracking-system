@@ -40,6 +40,7 @@ class systemUserServices {
                     const token = jwt.sign(
                         {
                             id: verifyLogin._id,
+                            firstName: verifyLogin.firstName,
                             email: verifyLogin.email,
                             userType: "system"
                         },
@@ -57,10 +58,9 @@ class systemUserServices {
                 }
             }
         } catch (error) {
-            return [400,{code: 400, data: {error: "No otp for this User!", respone: ""}}];
+            return [400,{code: 400, data: {error: "No otp for this User!", response: ""}}];
         }
     }
-
 
     public getOrganizationUsers = async(org_name: string): Promise<[number,any]> => {
         try {

@@ -37,7 +37,7 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
         const org_name = decoded.org_name;
         handleOrgName(org_name);
         try {
-            const response = await showRequests(org_name);
+            const response = await showRequests(org_name, token);
             const result = await response.json();
             
             if (!response.ok) {
@@ -65,7 +65,13 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
       }
 
       const handleApproveRequest = async (id: string) => {
-        const response = await approveRequest(id);
+        const token = localStorage.getItem('token');
+        if(!token)
+          {
+            toast.error("Unauthorized Access!");
+          }
+          else{
+        const response = await approveRequest(id, token);
 
         const result = await response.json();
 
@@ -79,6 +85,7 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
           getData();
         }
       }
+    }
 
       const handleRejectClick = (id: string) => {
           setRequestId(id);

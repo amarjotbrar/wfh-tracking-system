@@ -3,7 +3,7 @@ import { useState } from "react";
 
 //library components
 import { Modal, Button, Input } from "rsuite";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 //services
 import { createOrganization } from "../../services/systemUserServices/systemUserServices";
@@ -12,7 +12,7 @@ import { createOrganization } from "../../services/systemUserServices/systemUser
 import 'react-toastify/dist/ReactToastify.css';
 import "./CreateOrgForm.scss";
 
-const CreateOrganizationForm = () => {
+const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFormProps) => {
   const [popup, setPopup] = useState(true);
   const [org_name, setOrg] = useState("");
   const [name, setName] = useState("");
@@ -21,10 +21,15 @@ const CreateOrganizationForm = () => {
 
   const handleSubmit = async (e: FormSubmit) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    if(!token){
+      toast.error("Unauthorized Access!");
+      return;
+    }
     const isActive = true;
     const addOrg = { org_name, name, maxWfhDays, isActive};
 
-    const response = await createOrganization(addOrg);
+    const response = await createOrganization(addOrg, token);
 
     const result = await response.json();
 
@@ -42,6 +47,7 @@ const CreateOrganizationForm = () => {
       setTimeout(() => {
         setError("");
         setPopup(!popup);
+        toggleChange();
       }, 300);
     }
   };
@@ -67,11 +73,12 @@ const CreateOrganizationForm = () => {
 
   const togglePopup = () => {
     setPopup(!popup);
+    closePopup();
   };
 
   return (
     <>
-    <Modal open={popup} onClose={togglePopup}  style={{ top: '10%'}}>
+    <Modal open={popup} onClose={togglePopup}  style={{ top: '9%'}}>
       <Modal.Header>
         <Modal.Title>Create Organization</Modal.Title>
       </Modal.Header>
@@ -105,7 +112,6 @@ const CreateOrganizationForm = () => {
         </form>
       </Modal.Body>
     </Modal>
-    <ToastContainer/>
     </>
   );
 };

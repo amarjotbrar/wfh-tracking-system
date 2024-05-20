@@ -11,8 +11,13 @@ const RejectionForm = ({id, getData, toastNotification, closePopup}: RejectionFo
   const [reason, setReason] = useState({reason: ""});
 
   const handleRejectRequest = async (id: string) => {
-
-    const response = await rejectRequest(id, reason);
+    const token = localStorage.getItem("token");
+    if(!token)
+      {
+        toastNotification("Unauthorized Access!");
+      }
+    else{
+    const response = await rejectRequest(id, reason, token);
 
     const result = await response.json();
 
@@ -27,6 +32,7 @@ const RejectionForm = ({id, getData, toastNotification, closePopup}: RejectionFo
     }
     togglePopup();
   }
+}
 
   const handleReason = (e: string) => {
     setReason({reason: e});

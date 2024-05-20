@@ -1,4 +1,4 @@
-type OrganizationData = {
+export type OrganizationData = {
   _id: string;
   name: string;
   org_name: string,
@@ -6,7 +6,9 @@ type OrganizationData = {
 };
 
 
-
+export type showOrganizationsProps = {
+  change: boolean;
+}
 
 
 

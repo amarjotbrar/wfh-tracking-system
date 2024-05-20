@@ -14,10 +14,19 @@ import styles from "./SystemUserHome.module.scss";
 
 const SystemUserHome = () => {
   const [popup, setPopup] = useState(false);
+  const [change, setChange] = useState(true);
 
-  const togglePopup = () => {
-    setPopup(!popup);
+  const toggleChange = () => {
+    setChange(!change);
+  }
+
+  const openPopup = () => {
+    setPopup(true);
   };
+
+  const closePopup = () => {
+    setPopup(false);
+  }
 
   return (
     <>
@@ -28,14 +37,14 @@ const SystemUserHome = () => {
             size="lg"
             appearance="primary"
             color="green"
-            onClick={togglePopup}
+            onClick={openPopup}
           >
             Create Organization
           </Button>
         </div>
-        {popup ? <CreateOrganizationForm /> : <></>}
+        {popup ? <CreateOrganizationForm closePopup = {closePopup} toggleChange={toggleChange}/> : <></>}
         <div className={styles.AllOrganizationsContainer}>
-          <ShowAllOrganizations />
+          <ShowAllOrganizations change={change}/>
         </div>
       </div>
     </>

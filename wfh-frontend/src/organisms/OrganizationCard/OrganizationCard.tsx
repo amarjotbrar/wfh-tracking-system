@@ -1,8 +1,8 @@
 //modules
-import { useEffect } from "react";
 
 //library components
 import { Button } from "rsuite";
+import {toast} from "react-toastify";
 
 //components
 
@@ -12,30 +12,32 @@ import { deleteOrganization } from "../../services/systemUserServices/systemUser
 //styles
 import styles from "./OrganizationCard.module.scss";
 
-const OrgCard = ({ id, name, maxWfhDays, org_name, changeShowUsers, toastnotification}: OrgCardProps) => {
+const OrgCard = ({ id, name, maxWfhDays, org_name, showPopup, toggleDelete}: OrgCardProps) => {
 
   const handleDelete = async(id: string)=> {
-    const response = await deleteOrganization(id);
+    const token = localStorage.getItem('token');
+    if(!token){
+      toast.error("Unauthorized Access!");
+      return;
+    }
+    const response = await deleteOrganization(id, token);
     const result = await response.json();
 
 
     if(!response.ok){
-      toastnotification(result.data.error, false);
+      toast.error(result.data.error);
     }
 
     if(response.ok)
       {
-        toastnotification(result.data.response, true);
+        toast.success(result.data.response);
+        toggleDelete();
       }
   }
 
   const handleShowUsers = (org_name: string) =>{
-    changeShowUsers(org_name);
+    showPopup(org_name);
   }
-
-  useEffect(()=>{
-    
-  });
 
   return (
     <>

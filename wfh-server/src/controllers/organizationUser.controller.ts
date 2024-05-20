@@ -28,10 +28,22 @@ class organizationUserController{
 
     public creteRequest = async (req: Request, res: Response): Promise<any> =>{
         const reqData: wfhRequestData = req.body;
-        const [status, response] = await this.organizationUserServiceInstance.createRequest(reqData);
+        const userData = {
+            email: req.user.email,
+            org_name: req.user.org_name,
+            firstName: req.user.firstName
+        }
+        const [status, response] = await this.organizationUserServiceInstance.createRequest(reqData, userData);
         res.status(status).json(response);
     }
 
+    public showUserRequests = async(req: Request, res: Response): Promise<any> => {
+        const org_name = req.user.org_name;
+        const email = req.user.email;
+
+        const [status, response] = await this.organizationUserServiceInstance.showUserRequests(email, org_name);
+        res.status(status).json(response);
+    }
 }
 
 export default organizationUserController;

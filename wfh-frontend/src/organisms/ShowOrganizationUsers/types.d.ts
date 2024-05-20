@@ -1,6 +1,6 @@
 export type showUserProps = {
     org_name: string;
-    close : () => void;
+    closePopup : () => void;
 }
 
 export type OrganizationUserData = {

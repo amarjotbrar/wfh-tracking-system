@@ -1,13 +1,13 @@
-//modules
-import { Link } from "react-router-dom";
-
 //library components
 import { Button } from "rsuite";
+
+//types
+import { LoginCardProps } from "./types";
 
 //styles
 import styles from "./LoginCard.module.scss";
 
-const LoginCard = () => {
+const LoginCard = ({handleLogin}: LoginCardProps) => {
   return (
     <div className={styles.CardContainer}>
       <h3>Already a User?</h3>
@@ -16,11 +16,9 @@ const LoginCard = () => {
         tracking tasks, measuring productivity, and staying on top of your
         remote work game.
       </p>
-      <Link to="/login">
-        <Button size="lg" appearance="primary">
+        <Button size="lg" appearance="primary" onClick={handleLogin}>
           Login
         </Button>
-      </Link>
     </div>
   );
 };

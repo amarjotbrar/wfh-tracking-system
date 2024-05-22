@@ -3,6 +3,7 @@ import organizationDao from "../dao/organization.dao.js";
 import otpDao from "../dao/otp.dao.js";
 import wfhRequestDao from "../dao/wfhRequestDao.js";
 import jwt from "jsonwebtoken";
+import { dateConvertor, yearFirstConvertor } from "../helpers/dateHelpers.js";
 
 class organizationUserServices {
     private organizationUserDaoInstance = new organizationUserDao();
@@ -25,9 +26,29 @@ class organizationUserServices {
         if(userAlreadyPresent) return[401, {code:401, data:{error: "User already present!", response:""}}];
 
         try{
+            const dob = yearFirstConvertor(userData.dob.toString());
+            const doj = yearFirstConvertor(userData.doj.toString());
+            const day = new Date();
+            const today = dateConvertor(day);
+
+            if(dob > today || doj > today)
+            {
+                return [400, {code: 400, data:{error: "Invalid Dates!", response:""}}];
+            }
+            if(doj < dob)
+            {
+                return [400, {code: 400, data:{error: "Can't join before birth!", response:""}}];
+            }
+
+            if(today - dob < (365*16))
+            {
+                return [400, {code: 400, data:{error: "Age should be atleast 16!", response:""}}];
+            }
+            
             const userAdded = await this.organizationUserDaoInstance.createOrganizationUser(userData);
             return [200, {code: 200, data:{error: "", response:userAdded}}];
         } catch (error:any){
+            console.log(error);
             return [401, {code: 401, data:{error: error.message, response: ""}}];
         }
     }
@@ -114,7 +135,7 @@ class organizationUserServices {
     public showUserRequests = async(email: String, org_name: String):Promise<[number, any]> => {
         try {
             const response = await this.wfhRequestDaoInstance.showUserRequests(org_name, email);
-            return [401, {code: 401, data:{error:"", response: response}}];
+            return [200, {code: 200, data:{error:"", response: response}}];
         } catch (error:any) {
             return [401, {code: 401, data:{error: error.message, response: ""}}];
         }

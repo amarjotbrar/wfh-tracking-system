@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //library components
-import { Button, Input, Loader } from "rsuite";
+import { Button, Input } from "rsuite";
 import {toast, ToastContainer} from 'react-toastify';
 
 //services
@@ -22,7 +22,7 @@ const LoginForm = () => {
   const [org_name, setOrg] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [load, setLoad] = useState(false);
+  // const [load, setLoad] = useState(false);
 
   const navigate = useNavigate();
 
@@ -41,13 +41,13 @@ const LoginForm = () => {
     {
       localStorage.setItem('token', result.data.response);
       toast.success("Verified Successfully", {autoClose:2000});
-      setLoad(true);
-      const timeoutId = setTimeout(() => {
-        setLoad(false);
+      // setLoad(true);
+      // const timeoutId = setTimeout(() => {
+      //   setLoad(false);
         navigate("/sys/home");
-      }, 2000);
+      // }, 1000);
 
-      timeoutId;
+      // timeoutId;
     }
   };
 
@@ -69,28 +69,59 @@ const LoginForm = () => {
 
         if(userType === "admin"){
           toast.success("Verified Admin Successfully", {autoClose:2000});
-          setLoad(true);
-          const timeoutId = setTimeout(() => {
-            setLoad(false);
+          // setLoad(true);
+          // const timeoutId = setTimeout(() => {
+          //   setLoad(false);
             navigate("/org/admin");
-          }, 2000);
-          timeoutId;
+          // }, 2000);
+          // timeoutId;
         }
 
         else if(userType === "user"){
           toast.success("Verified User Successfully", {autoClose:2000});
-          setLoad(true);
-          const timeoutId = setTimeout(() => {
-            setLoad(false);
+          // setLoad(true);
+          // const timeoutId = setTimeout(() => {
+          //   setLoad(false);
             navigate("/org/home");
-          }, 2000);
+          // }, 2000);
     
-          timeoutId;
+          // timeoutId;
         }
       }
   };
 
-  const handleOrgOtp = async () => {
+  const validateSystem = (e: FormSubmit) => {
+    if(!email || !otp)
+      {
+        toast.error("Fill all Feilds!", {autoClose:3000})
+      }
+    else{
+      handleSystem(e);
+    }
+  }
+
+  const validateOrganization = (e: FormSubmit) => {
+    if(!email || !otp || !org_name)
+      {
+        toast.error("Fill all Feilds!", {autoClose:3000})
+      }
+      else{
+        handleOrganization(e)
+      }
+  }
+
+  const handleOrgOtp = async (e: ButtonClick) => {
+    e.preventDefault();
+    if(!email)
+      {
+        toast.error("Please enter email!", {autoClose:3000});
+        return;
+      }
+    else if(!org_name)
+      {
+        toast.error("Please enter org_name", {autoClose:3000});
+        return;
+      }
     const orgUserLoginData = {email, org_name}
     const response = await organizationUserOtp(orgUserLoginData);
 
@@ -107,6 +138,11 @@ const LoginForm = () => {
 
   const handleSysOtp = async(e: ButtonClick) => {
       e.preventDefault();
+      if(!email)
+        {
+          toast.error("Please enter email!", {autoClose:3000});
+          return;
+        }
       const response = await systemUserOtp({email});
 
       const result = await response.json();
@@ -148,20 +184,21 @@ const LoginForm = () => {
             </div>
           </div>
 
-          <form onSubmit={user == "System" ? handleSystem : handleOrganization}>
+          <form onSubmit={user == "System" ? validateSystem : validateOrganization}>
+            <Input
+              type="email"
+              placeholder="E-mail"
+              onChange={(e: InputFeild) => {
+                setEmail(e);
+              }}
+            ></Input>
+
             <Input
               disabled={user == "System" ? true : false}
               type="text"
               placeholder="Organization"
               onChange={(e: InputFeild) => {
                 setOrg(e);
-              }}
-            ></Input>
-            <Input
-              type="email"
-              placeholder="E-mail"
-              onChange={(e: InputFeild) => {
-                setEmail(e);
               }}
             ></Input>
 
@@ -182,7 +219,7 @@ const LoginForm = () => {
           </form>
         </div>
         <ToastContainer/>
-        {load ? <Loader backdrop content="Redirecting to Home Page...." vertical />: <></>}
+        {/* {load ? <Loader backdrop content="Redirecting to Home Page...." vertical />: <></>} */}
       </>
   );
 };

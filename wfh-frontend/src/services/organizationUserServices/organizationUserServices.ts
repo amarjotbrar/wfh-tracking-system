@@ -1,6 +1,7 @@
 import { OrganizationLoginData, OrganizationUserData, createRequestData } from "../types";
 
 export const createOrganizationUser = async (addOrgUser: OrganizationUserData) => {
+  console.log(addOrgUser);
     const response = await fetch("http://localhost:5000/org/register", {
       method: "POST",
       body: JSON.stringify(addOrgUser),
@@ -31,5 +32,16 @@ export const createWfhRequest = async (requestData: createRequestData, token: st
       "Authorization": token
     }
   });
+  return response;
+}
+
+export const showWfhRequests = async (token: string) => {
+  const response = await fetch("http://localhost:5000/org/showrequests", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token
+    }
+  })
   return response;
 }

@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 //components
 import LoginPage from "./pages/LoginPage/LoginPage";
-import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import HomePage from "./pages/HomePage/HomePage";
 import SystemUserHome from "./pages/SystemUserHome/SystemUserHome";
 import OrganizationUserHome from "./pages/OrganizationUserHome/OrganizationUserHome";
@@ -15,7 +14,6 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
         <Route path="/sys/home" element={<SystemUserHome />}></Route>
         <Route path="/org/home" element={<OrganizationUserHome />}></Route>
         <Route path='/org/admin' element={<OrganizationAdminPage />}></Route>

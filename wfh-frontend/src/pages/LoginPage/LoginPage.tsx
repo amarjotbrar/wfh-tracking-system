@@ -8,7 +8,7 @@ import styles from "./LoginPage.module.scss";
 const LoginPage = () => {
   return (
     <>
-      <NavBar />
+      <NavBar NavText="Login Page" logout={false}/>
       <div className={styles.LoginPageBody}>
         <LoginForm />
       </div>

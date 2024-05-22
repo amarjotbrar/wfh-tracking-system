@@ -10,6 +10,7 @@ export interface RequestData{
 
 export interface tokenData extends JwtPayload{
     org_name: string
+    firstName: string;
 }
 
 interface AdminDashboardProps {

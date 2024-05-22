@@ -6,6 +6,11 @@ class organizationUserDao {
         return response;
     }
 
+    public findOrganizationUserById = async(id: String) => {
+        const response = await organizationUserModel.findById(id);
+        return response;
+    }
+
     public createOrganizationUser = async(userData: organizationUser) =>{
         const response = await organizationUserModel.create(userData);
         return response;
@@ -21,8 +26,13 @@ class organizationUserDao {
         return response;
     }
 
-    public makeAdmin = async(id: string) => {
-        const response = await organizationUserModel.findByIdAndUpdate(id, {isAdmin: true}, {new:true});
+    public makeAdmin = async(id: string, value: boolean) => {
+        const response = await organizationUserModel.findByIdAndUpdate(id, {isAdmin: !value}, {new:true});
+        return response;
+    }
+
+    public findAdmin = async(org_name: string) => {
+        const response = await organizationUserModel.findOne({org_name: org_name, isAdmin: true});
         return response;
     }
 }

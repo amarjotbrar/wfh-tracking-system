@@ -4,7 +4,7 @@ import{ jwtDecode } from "jwt-decode";
 
 //library components
 import { toast} from "react-toastify";
-import {Table, Button} from "rsuite"
+import {Table, Button, Pagination} from "rsuite"
 const { Column, HeaderCell, Cell } = Table;
 
 //components
@@ -26,6 +26,8 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
     const [requestType, setRequestType] = useState("Pending");
     const [id, setRequestId] = useState("");
     const [popup, setPopup] = useState(false);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
 
     const getData = async () => {
       const token = localStorage.getItem('token');
@@ -103,6 +105,11 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
       const closePopup = () => {
         setPopup(false);
       }
+
+      const handleChangeLimit = (dataKey:number) => {
+        setPage(1);
+        setLimit(dataKey);
+      };
       
 
       //useEffect hooks
@@ -169,6 +176,23 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
                 </Column>
                 
             </Table>
+            <Pagination
+              prev
+              next
+              first
+              last
+              ellipsis
+              boundaryLinks
+              maxButtons={5}
+              size="xs"
+              layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+              total={filteredData.length}
+              limitOptions={[10, 30, 50]}
+              limit={limit}
+              activePage={page}
+              onChangePage={setPage}
+              onChangeLimit={handleChangeLimit}
+            />
             </div>
         </div>
         {popup ? <RejectionForm id={id} toastNotification={toastNotification} getData={getData} closePopup={closePopup}/> : <></>}

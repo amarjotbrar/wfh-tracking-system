@@ -30,10 +30,10 @@ const SystemUserHome = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar NavText="System User" logout={true}/>
       <div className={styles.SystemUserHomeBody}>
         <div className={styles.CreateOrganizationContainer}>
-          <Button
+          <Button className={styles.CreateButton}
             size="lg"
             appearance="primary"
             color="green"
@@ -42,11 +42,11 @@ const SystemUserHome = () => {
             Create Organization
           </Button>
         </div>
-        {popup ? <CreateOrganizationForm closePopup = {closePopup} toggleChange={toggleChange}/> : <></>}
         <div className={styles.AllOrganizationsContainer}>
           <ShowAllOrganizations change={change}/>
         </div>
       </div>
+      {popup ? <CreateOrganizationForm closePopup = {closePopup} toggleChange={toggleChange}/> : <></>}
     </>
   );
 };

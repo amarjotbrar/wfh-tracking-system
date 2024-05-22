@@ -12,7 +12,7 @@ const OrganizationAdminPage = () => {
   }
   return (
     <>
-      <NavBar NavText={"Organization Admin " + org_name}/>
+      <NavBar NavText={"Organization Admin " + org_name} logout={true}/>
         <div className={styles.AdminPageBody}>
           <AdminDashboard handleOrgName = {handleOrgName}/>
         </div> 

@@ -49,7 +49,7 @@ const ShowOrganizationUsers = ({org_name, closePopup} : showUserProps) => {
         getData();
       },[])
 
-    const handleAdminClick = async (id: string) => {
+    const handleAdminClick = async (id: string, value: boolean) => {
       console.log(id);
       const token = localStorage.getItem('token');
       if(!token){
@@ -61,7 +61,7 @@ const ShowOrganizationUsers = ({org_name, closePopup} : showUserProps) => {
 
       if(response.ok)
         {
-          toast.success("Created Admin");
+          {value ? toast.success("Created Admin!", {autoClose:2000}): toast.error("Admin Removed!", {autoClose:2000})}
           getData();
         }
       else 
@@ -98,8 +98,8 @@ const ShowOrganizationUsers = ({org_name, closePopup} : showUserProps) => {
       <Modal.Footer className={styles.modalFooter}>
         {
           content ?
-          <Button appearance="primary" color="blue" onClick={showForm}>Create New User</Button>:
-          <Button appearance="primary" color="green" onClick={showUsers}> Show Users</Button> 
+          <Button className={styles.FooterButton} size="lg" appearance="primary" color="green" onClick={showForm}>Create New User</Button>:
+          <Button className={styles.FooterButton} size="lg" appearance="primary" color="blue" onClick={showUsers}> Show Users</Button> 
         }    
       </Modal.Footer>
     </Modal>

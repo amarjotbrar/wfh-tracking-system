@@ -24,14 +24,17 @@ function UsersTable({data, handleAdminClick}: UserTableProps) {
                     <HeaderCell className='tablehead'>User Type</HeaderCell>
                     <Cell>
                       {(rowData) => (
-                        rowData.isAdmin ? (<p>Admin User</p>) : (
-                          
-                        <Button className={styles.adminButton} appearance="primary" color="green"
-                          onClick={() => handleAdminClick(rowData._id)}
-                          >
-                          Make Admin
-                        </Button>
-                        )
+                        rowData.isAdmin ? ("Admin") : ("User")
+                      )}
+                    </Cell>
+                </Column>
+                <Column flexGrow={1} align="center">
+                    <HeaderCell className='tablehead'>Action</HeaderCell>
+                    <Cell>
+                      {(rowData) => (
+                            <Button className={styles.adminButton} appearance="primary" color={rowData.isAdmin ?"red": "green"} onClick={() => {rowData.isAdmin ? handleAdminClick(rowData._id, false) : handleAdminClick(rowData._id, true)}}>
+                                {rowData.isAdmin ? "Remove Admin": "Make Admin"}
+                            </Button>
                       )}
                     </Cell>
                 </Column>

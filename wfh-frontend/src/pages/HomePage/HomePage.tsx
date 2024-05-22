@@ -1,3 +1,6 @@
+//modules
+import { useNavigate } from "react-router-dom";
+
 //components
 import RegisterCard from "../../molecules/RegisterSection/RegisterCard";
 import LoginCard from "../../molecules/LoginSection/LoginCard";
@@ -8,9 +11,19 @@ import styles from "./HomePage.module.scss";
 
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const token = localStorage.getItem('token');
+    if(!token)
+      {
+        navigate('/login');
+      }
+  }
+
   return (
     <>
-      <NavBar />
+      <NavBar NavText="Home Page" logout={false}/>
       <div className={styles.WelcomeContainer}>
         <h2>Welcome to</h2>
         <h2 className={styles.Focused}>"Work From Home Tracking System"</h2>
@@ -24,7 +37,7 @@ const HomePage = () => {
         <div className={styles.Separator}></div>
 
         <div className={styles.Right}>
-          <LoginCard />
+          <LoginCard handleLogin={handleLogin} />
         </div>
       </div>
     </>

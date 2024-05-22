@@ -14,7 +14,7 @@ const wfhRequestSchema = new mongoose.Schema({
         required: true,
     },
     requestDate:{
-        type: Date,
+        type: String,
         required: true,
     },
     details: {

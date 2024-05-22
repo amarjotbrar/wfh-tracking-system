@@ -1,14 +1,15 @@
-import  { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import {Modal, Input, Button} from 'rsuite';
 import { CreateWfhRequestFormFormProps } from './types';
 import { createWfhRequest } from '../../services/organizationUserServices/organizationUserServices';
 import { toast } from 'react-toastify';
 
+import styles from "./CreateWfhRequestForm.module.scss";
 
 const CreateWfhRequestForm = ({requestDate, closePopup}: CreateWfhRequestFormFormProps) => {
 
   const [popup, setPopup] = useState(true);
-
+  const [buttonDisable, setButtonDisable] = useState(true);
   const [reason, setReason] = useState("");
 
   const handleSubmit = async () => {
@@ -42,8 +43,20 @@ const CreateWfhRequestForm = ({requestDate, closePopup}: CreateWfhRequestFormFor
     setReason(e);
   }
 
+  useEffect(() => {
+    if(reason.trim().length >= 30)
+    {
+      setButtonDisable(false);
+    }
+    else
+    {
+      setButtonDisable(true);
+    }
+  },[reason])
+
   const togglePopup = () => {
     closePopup();
+    setButtonDisable(true);
     setPopup(!popup);
   }
 
@@ -54,9 +67,11 @@ const CreateWfhRequestForm = ({requestDate, closePopup}: CreateWfhRequestFormFor
         </Modal.Header>
         <Modal.Body>
             <Input as='textarea' value={reason} rows={5} onChange={(e) => handleReason(e)}></Input>
+            <p>Minimum 30 characters</p>
         </Modal.Body>
-        <Modal.Footer>
-        <Button
+        <Modal.Footer className={styles.footer}>
+          
+        <Button disabled={buttonDisable} className={styles.submitButton}
             style={{ margin: "0" }} appearance="primary" color='green' onClick={() => handleSubmit()}
                         >
                           Submit

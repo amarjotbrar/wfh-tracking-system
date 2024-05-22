@@ -73,7 +73,27 @@ class systemUserServices {
 
     public makeAdmin = async(id: string): Promise<[number, any]> => {
         try {
-            const response = await this.organizationUserDaoInstance.makeAdmin(id);
+            const userData = await this.organizationUserDaoInstance.findOrganizationUserById(id);
+            if(!userData)
+            {
+                return [400, {code: 400, data:{error: "User not found!"}}];
+            }
+
+            const value = userData.isAdmin;
+            if(value)
+            {
+                return [400, {code: 400, data:{error: "User is already Admin!", response: ""}}];
+            }
+
+            if(!value)
+            {
+                const adminPresent = await this.organizationUserDaoInstance.findAdmin(userData.org_name);
+                if (adminPresent)
+                {
+                    return [400, {code: 400, data:{error: "Admin already present!", response: ""}}];
+                }
+            }
+            const response = await this.organizationUserDaoInstance.makeAdmin(id, value);
             return[200, {code: 200, data:{error: "", response:response}}];
         } catch (error) {
             return [400, {code: 400, data:{error: error, response: ""}}];

@@ -44,7 +44,7 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
     if (!response.ok) {
       setError(result.data.error);
       console.log(error);
-      toast.error(result.data.error, {position:"top-right"})
+      toast.error(result.data.error, {autoClose:2000})
     }
 
     if (response.ok) {
@@ -55,11 +55,9 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
       setEmail("");
       setDOB("");
       setDOJ("");
-      toast.success("Created Successfully!", {position:"top-right"})
-      setTimeout(() => {
-        setError("");
-        showUsers();
-      }, 3000);
+      toast.success("Created Successfully!", {autoClose: 2000})
+      setError("");
+      showUsers();
     }
   };
 
@@ -74,6 +72,17 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
       return;
     } else handleOrganization(e);
   };
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
+  const getMaxDate = () =>{
+    const today = new Date();
+    today.setFullYear(today.getFullYear() - 15);
+    return today.toISOString().split('T')[0];
+  }
 
   return (
     <>
@@ -99,6 +108,7 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
                 <div className={styles.DateContainer}>
                     <label className="form-label">Date of Birth</label>
                     <Input
+                    max={getMaxDate()}
                     type="date"
                     onChange={(e: InputFeild) => {
                         setDOB(e);
@@ -109,6 +119,7 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
                 <div className={styles.DateContainer}>
                     <label className="form-label">Date of Joining</label>
                     <Input
+                    max={getCurrentDate()}
                     type="date"
                     onChange={(e: InputFeild) => {
                         setDOJ(e);

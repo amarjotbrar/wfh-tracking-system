@@ -42,7 +42,7 @@ interface createLink {
 
 interface wfhRequestData {
     details: String,
-    requestDate: Date
+    requestDate: String
 }
 
 interface orgUserTokenData {

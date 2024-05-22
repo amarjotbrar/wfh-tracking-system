@@ -30,7 +30,7 @@ const OrgCard = ({ id, name, maxWfhDays, org_name, showPopup, toggleDelete}: Org
 
     if(response.ok)
       {
-        toast.success(result.data.response);
+        toast.error(`Deleted organization "${org_name}"`, {autoClose:3000});
         toggleDelete();
       }
   }

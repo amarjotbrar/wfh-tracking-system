@@ -62,7 +62,7 @@ export const showOrganizationUsers = async (org_name: string, token: string) => 
 
 export const makeAdmin = async(id: string, token: string) => {
   return await fetch(`http://localhost:5000/sys/makeadmin/${id}`,{
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       "Authorization": token

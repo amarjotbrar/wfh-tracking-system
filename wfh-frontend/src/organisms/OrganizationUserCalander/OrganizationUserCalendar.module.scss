@@ -1,3 +1,37 @@
-.red{
-    background-color: rgb(255, 98, 98);
+.CalendarBody{ 
+    display: flex;
+    .leftBar{
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .ColorPicker{
+            display: flex;
+            flex-direction: column;
+            gap: 2%;
+            margin-top: 30%;
+            margin-left: 15%;
+
+            .yellowBox{
+                height: 1rem;
+                width: 1rem;
+                background-color: rgb(252, 252, 153); ;
+            }
+
+            .redBox{
+                height: 1rem;
+                width: 1rem;
+                background-color: rgb(254, 144, 144);
+            }
+
+            .greenBox{
+                height: 1rem;
+                width: 1rem;
+                background-color: rgb(162, 255, 162);
+            }
+        }
+    }
+    .CalendarContainer{
+        flex: 8;
+    }
 }

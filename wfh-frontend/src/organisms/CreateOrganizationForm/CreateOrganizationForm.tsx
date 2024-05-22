@@ -23,7 +23,7 @@ const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFo
     e.preventDefault();
     const token = localStorage.getItem('token');
     if(!token){
-      toast.error("Unauthorized Access!");
+      toast.error("Unauthorized Access!", {autoClose:2000});
       return;
     }
     const isActive = true;
@@ -35,20 +35,17 @@ const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFo
 
     if (!response.ok) {
       setError(result.data.error);
-      toast.error(result.error, {
-        position: "top-right"
-        });
+      toast.error(result.error);
     }
 
     if (response.ok) {
-      toast.success('Created Successfulyy!', {
-        position: "top-right"
-        });
+      toast.success('Created Successfulyy!', {autoClose:2000});
       setTimeout(() => {
         setError("");
-        setPopup(!popup);
         toggleChange();
-      }, 300);
+        closePopup();
+        setPopup(!popup);
+      }, 200);
     }
   };
 
@@ -78,7 +75,7 @@ const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFo
 
   return (
     <>
-    <Modal open={popup} onClose={togglePopup}  style={{ top: '9%'}}>
+    <Modal open={popup} onClose={togglePopup}  style={{ top: '8%'}}>
       <Modal.Header>
         <Modal.Title>Create Organization</Modal.Title>
       </Modal.Header>

@@ -9,7 +9,6 @@ import zodValidator from '../middleware/validators/zod.validator.js';
 import { organizationUserValidator } from '../middleware/validators/organizationUser.validator.js';
 import { createOrganizationValidator } from '../middleware/validators/systemUser.validator.js';
 import { adminAuthorization, orgAuthorization, sysAuthorization} from '../middleware/authMiddleware.js';
-import { verifyUser } from '../helpers/verifyUsers.js';
 
 class routes{
     public organizationUserPath = '/org';
@@ -26,7 +25,6 @@ class routes{
         this.initializeSystemUserRoutes(`${this.systemUserPath}`);
         this.initializeOrganizationUserRoutes(`${this.organizationUserPath}`);
         this.initializeAdminRoutes(`${this.adminPath}`);
-        this.router.get('/verifyuser', verifyUser);
     }
 
     private initializeSystemUserRoutes(prefix: string){
@@ -38,7 +36,7 @@ class routes{
         this.router.post(`${prefix}/sendotp`,this.systemUserController.sendOtp);
         this.router.post(`${prefix}/login`, this.systemUserController.login);
         this.router.get(`${prefix}/showusers/:org_name`,sysAuthorization, this.systemUserController.findUsers);
-        this.router.patch(`${prefix}/makeadmin/:id`,sysAuthorization, this.systemUserController.makeAdmin);
+        this.router.put(`${prefix}/makeadmin/:id`,sysAuthorization, this.systemUserController.makeAdmin);
     }
 
     private initializeOrganizationUserRoutes(prefix: string){

@@ -1,7 +1,13 @@
 $height: calc(100vh - 56px);
+
+::-webkit-scrollbar{
+  background: transparent;
+  width: 0;
+}
 .SystemUserHomeBody {
   height: $height;
   display: flex;
+  padding-top: 56px;
   align-items: center;
   flex-direction: column;
   width: 100vw;
@@ -11,6 +17,11 @@ $height: calc(100vh - 56px);
     align-items: center;
     justify-content: center;
     height: 15%;
+    width: 100%;
+
+    .CreateButton{
+      min-width: 15%;
+    }
   }
 
   .AllOrganizationsContainer {

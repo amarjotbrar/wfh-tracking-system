@@ -20,7 +20,10 @@ export const approveRequest = async (id: string, token: string) => {
   })
 }
 
-export const rejectRequest = async (id: string, rejectData:rejectData, token:string) => {
+export const rejectRequest = async (id: string, reason: string, token:string) => {
+  const rejectData: rejectData = {
+    reason: reason
+  }
   return await fetch(`http://localhost:5000/admin/rejectreq/${id}`, {
     method: "PATCH",
     body: JSON.stringify(rejectData),

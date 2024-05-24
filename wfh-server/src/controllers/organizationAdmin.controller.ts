@@ -18,8 +18,13 @@ class organizationAdminController{
     }
 
     public showRequests = async (req: Request, res: Response): Promise<any> =>{
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+        const requestStatus = `${req.query.status}` || "Pending";
         const org_name: string = req.params.org_name;
-        const [status, response] = await this.organizationAdminServiceInstance.showRequests(org_name);
+        const [status, response] = await this.organizationAdminServiceInstance.showRequests(org_name, skip, limit, requestStatus);
         res.status(status).json(response);
     }
 }

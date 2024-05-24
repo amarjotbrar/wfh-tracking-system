@@ -91,6 +91,7 @@ const LoginForm = () => {
   };
 
   const validateSystem = (e: FormSubmit) => {
+    e.preventDefault();
     if(!email || !otp)
       {
         toast.error("Fill all Feilds!", {autoClose:3000})
@@ -101,6 +102,7 @@ const LoginForm = () => {
   }
 
   const validateOrganization = (e: FormSubmit) => {
+    e.preventDefault();
     if(!email || !otp || !org_name)
       {
         toast.error("Fill all Feilds!", {autoClose:3000})
@@ -115,25 +117,26 @@ const LoginForm = () => {
     if(!email)
       {
         toast.error("Please enter email!", {autoClose:3000});
-        return;
       }
     else if(!org_name)
       {
         toast.error("Please enter org_name", {autoClose:3000});
-        return;
       }
-    const orgUserLoginData = {email, org_name}
-    const response = await organizationUserOtp(orgUserLoginData);
-
-    const result = await response.json();
-    if(response.ok)
-    {
-      toast.success("Otp Sent!");
-    }
-    if(!response.ok)
-    {
-      toast.error(result.data.error);
-    }
+      else{
+        const orgUserLoginData = {email, org_name}
+        const response = await organizationUserOtp(orgUserLoginData);
+    
+        const result = await response.json();
+        if(response.ok)
+        {
+          toast.success("Otp Sent!");
+        }
+        if(!response.ok)
+        {
+          toast.error(result.data.error);
+        }
+      }
+   
   }
 
   const handleSysOtp = async(e: ButtonClick) => {
@@ -141,9 +144,9 @@ const LoginForm = () => {
       if(!email)
         {
           toast.error("Please enter email!", {autoClose:3000});
-          return;
         }
-      const response = await systemUserOtp({email});
+        else{
+          const response = await systemUserOtp({email});
 
       const result = await response.json();
       if(response.ok)
@@ -153,6 +156,7 @@ const LoginForm = () => {
       if(!response.ok)
       {
         toast.error(result.data.error);
+      }
       }
   }
 
@@ -168,7 +172,7 @@ const LoginForm = () => {
                 onClick={() => {
                   setUser("System");
                 }}
-                appearance={user == "System" ? "primary" : "default"}
+                appearance={user == "System" ? "primary" : "ghost"}
               >
                 System
               </Button>
@@ -177,7 +181,7 @@ const LoginForm = () => {
                 onClick={() => {
                   setUser("Organization");
                 }}
-                appearance={user == "Organization" ? "primary" : "default"}
+                appearance={user == "Organization" ? "primary" : "ghost"}
               >
                 Organization
               </Button>

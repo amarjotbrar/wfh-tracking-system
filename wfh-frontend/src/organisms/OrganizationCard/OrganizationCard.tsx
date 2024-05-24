@@ -30,7 +30,7 @@ const OrgCard = ({ id, name, maxWfhDays, org_name, showPopup, toggleDelete}: Org
 
     if(response.ok)
       {
-        toast.error(`Deleted organization "${org_name}"`, {autoClose:3000});
+        toast.error(`Delived organization "${org_name}"`, {autoClose:3000});
         toggleDelete();
       }
   }
@@ -45,12 +45,13 @@ const OrgCard = ({ id, name, maxWfhDays, org_name, showPopup, toggleDelete}: Org
       <div className={"card"}>
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
+          <h6 className="card-subtitle mb-2 text-body-secondary">{org_name}</h6>
           <h6 className="card-subtitle mb-2 text-body-secondary">
             WFH Days: {maxWfhDays}
           </h6>
           <div className={styles.Buttons}>
             <Button appearance="primary" onClick={() => handleShowUsers(org_name)}>Show Users</Button>
-            <Button appearance="primary" color="red" onClick={() => handleDelete(id)}>Delete</Button>
+            <Button appearance="primary" color="red" onClick={() => handleDelete(id)}>Delive</Button>
           </div>
         </div>
       </div>

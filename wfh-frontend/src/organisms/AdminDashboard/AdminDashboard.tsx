@@ -22,12 +22,12 @@ import styles from "./AdminDashboard.module.scss"
 const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
 
     const [data , setData]= useState<RequestData[]>([]);
-    const [filteredData, setFilteredData] = useState<RequestData[]>([]);
     const [requestType, setRequestType] = useState("Pending");
     const [id, setRequestId] = useState("");
     const [popup, setPopup] = useState(false);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
+    const [totalRequests, setTotalRequests] = useState(0)
 
     const getData = async () => {
       const token = localStorage.getItem('token');
@@ -39,12 +39,13 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
         const org_name = decoded.org_name;
         handleOrgName(org_name);
         try {
-            const response = await showRequests(org_name, token);
+            const response = await showRequests(org_name, token, page, limit, requestType);
             const result = await response.json();
             
             if (!response.ok) {
               toast.error("Unable to Show Requests!");
             } else {
+              setTotalRequests(result.data.totalRequests);
               setData(result.data.response);
             }
           } catch (error) {
@@ -106,25 +107,20 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
         setPopup(false);
       }
 
-      const handleChangeLimit = (dataKey:number) => {
-        setPage(1);
-        setLimit(dataKey);
+      const handleChangeLimit = (limit:number) => {
+        setLimit(limit);
       };
+
+      const handleChangePage = (page: number) => {
+        setPage(page);
+      }
       
 
       //useEffect hooks
 
       useEffect(() => {
-        const newData = data.filter((requests) => {
-          return requests.isApproved === requestType;
-        })
-        console.log(newData);
-        setFilteredData(newData);
-      },[requestType, data])
-
-      useEffect(()=>{
         getData();
-      },[])
+      }, [page, limit, requestType])
 
   return (
     <>
@@ -135,8 +131,8 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
               <Button className={requestType === "Approved" ? styles.ButtonActive : styles.ButtonInactive} size="lg" appearance="primary" color='green' onClick={handleApprovedClick}>Approved</Button>
               <Button className={requestType === "Rejected" ? styles.ButtonActive : styles.ButtonInactive} size="lg" appearance="primary" color='red' onClick={handleRejectedClick}>Rejected</Button>
             </div>
-            <div className={styles.RequestsTable}>
-            <Table className={styles.userTable} data={filteredData} fillHeight>
+          <div className={styles.RequestsTable}>
+            <Table className={styles.userTable} data={data} fillHeight>
                 <Column flexGrow={1} align="center">
                     <HeaderCell className='tablehead'>Name</HeaderCell>
                     <Cell dataKey="firstName" />
@@ -175,25 +171,26 @@ const AdminDashboard = ({ handleOrgName }: AdminDashboardProps) => {
                     }
                 </Column>
                 
-            </Table>
-            <Pagination
-              prev
-              next
-              first
-              last
-              ellipsis
-              boundaryLinks
-              maxButtons={5}
-              size="xs"
-              layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-              total={filteredData.length}
-              limitOptions={[10, 30, 50]}
-              limit={limit}
-              activePage={page}
-              onChangePage={setPage}
-              onChangeLimit={handleChangeLimit}
-            />
-            </div>
+            </Table>                  
+              <Pagination
+                className={styles.pagination}
+                prev
+                next
+                first
+                last
+                ellipsis
+                boundaryLinks
+                maxButtons={5}
+                size="sm"
+                layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+                total={totalRequests}
+                limitOptions={[5, 10, 30, 50]}
+                limit={limit}
+                activePage={page}
+                onChangePage={handleChangePage}
+                onChangeLimit={handleChangeLimit}
+              />
+          </div>
         </div>
         {popup ? <RejectionForm id={id} toastNotification={toastNotification} getData={getData} closePopup={closePopup}/> : <></>}
     </>

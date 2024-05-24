@@ -25,12 +25,13 @@ const NavBar = ({NavText = "", logout = false}:NavBarProps) => {
           <b>WFH</b>
         </Navbar.Brand>
         <Nav>
-          <Nav.Item
+          {!logout ? <Nav.Item
             icon={<Others />}
             onClick={() => {navigate('/')}}
           >
             Home
-          </Nav.Item>
+          </Nav.Item>: <></>}
+          
           <Nav.Item>{NavText}</Nav.Item>
         </Nav>
         <Nav pullRight>

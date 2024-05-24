@@ -10,7 +10,7 @@
     }
 
     .ButtonsContainer{
-        height: 15%;
+        height: 10%;
         width: 80%;
         display: flex;
         align-items: center;
@@ -30,7 +30,7 @@
         box-sizing: border-box;
         width: 80%;
         border: 0.1rem;
-        height: 70%;
+        height: 74.2%;
         border-width: 0.2rem 0 0 0;
         border-style: solid;
         border-color: gray;
@@ -40,6 +40,10 @@
             width: 80%;
             display: flex;
             justify-content: space-around;
+        }
+
+        .pagination{
+            margin-top: 1%;
         }
     }
 }

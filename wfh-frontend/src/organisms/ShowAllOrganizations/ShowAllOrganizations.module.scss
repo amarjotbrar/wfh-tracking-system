@@ -10,9 +10,10 @@
   .OrganizationsContainer {
     width: 100%;
     display: grid;
+    margin-top: 1.5%;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-    grid-template-rows: repeat(auto-fill, 30%);
-    grid-gap: 6.6%;
+    grid-template-rows: repeat(auto-fill, 160px);
+    grid-gap: 5%;
     height: 100%;
   }
 
@@ -20,3 +21,5 @@
     width: 40%;
   }
 }
+
+

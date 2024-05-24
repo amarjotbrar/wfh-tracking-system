@@ -3,6 +3,7 @@ import { useState } from "react";
 
 //library components
 import { Button } from "rsuite";
+import { ToastContainer } from "react-toastify";
 
 //components
 import NavBar from "../../molecules/NavBar/NavBar";
@@ -47,6 +48,7 @@ const SystemUserHome = () => {
         </div>
       </div>
       {popup ? <CreateOrganizationForm closePopup = {closePopup} toggleChange={toggleChange}/> : <></>}
+      <ToastContainer/>
     </>
   );
 };

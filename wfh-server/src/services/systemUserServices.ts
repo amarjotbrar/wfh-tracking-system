@@ -46,7 +46,7 @@ class systemUserServices {
                         },
                         `${process.env.JWTKEY}`,
                         {
-                            expiresIn: "1h"
+                            expiresIn: "3h"
                         }
                     )
 
@@ -80,11 +80,6 @@ class systemUserServices {
             }
 
             const value = userData.isAdmin;
-            if(value)
-            {
-                return [400, {code: 400, data:{error: "User is already Admin!", response: ""}}];
-            }
-
             if(!value)
             {
                 const adminPresent = await this.organizationUserDaoInstance.findAdmin(userData.org_name);

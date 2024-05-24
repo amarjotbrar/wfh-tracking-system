@@ -14,11 +14,8 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const token = localStorage.getItem('token');
-    if(!token)
-      {
-        navigate('/login');
-      }
+    // const token = localStorage.getItem('token');
+    navigate('/login')
   }
 
   return (

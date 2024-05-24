@@ -5,10 +5,11 @@ class organizationAdminServices {
     private organizationDaoInstance = new organizationDao();
     private whfRequestDaoInstance = new wfhRequestDao();
 
-    public showRequests = async (org_name: string): Promise<[number,any]> =>{
+    public showRequests = async (org_name: string, skip: number, limit: number, requestStatus: string): Promise<[number,any]> =>{
         try{
-            const showRequests = await this.whfRequestDaoInstance.showRequests(org_name);
-            return [200, {code: 200, data:{error: "", response:showRequests}}];
+            const showRequests = await this.whfRequestDaoInstance.showRequests(org_name, skip, limit, requestStatus);
+            const totalRequests = await this.whfRequestDaoInstance.getNumberOfRequests(org_name, requestStatus)
+            return [200, {code: 200, data:{error: "", response:showRequests, totalRequests: totalRequests}}];
         }
         catch(error: any){
             return [401, {code: 401, data:{error: error.message, response: ""}}];

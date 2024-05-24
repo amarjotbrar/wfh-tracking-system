@@ -49,8 +49,19 @@ interface orgUserTokenData {
     firstName: String,
     email: String,
     org_name: String,
+    maxWfhDays: number
 }
 
-interface createWfhRequest extends wfhRequestData, orgUserTokenData{
-    
+interface createWfhRequest {
+    details: String,
+    requestDate: String,
+    firstName: String,
+    email: String,
+    org_name: String,
+}
+
+interface makeOrganizationLiveData {
+    id: String,
+    name: String,
+    maxWfhDays: number,
 }

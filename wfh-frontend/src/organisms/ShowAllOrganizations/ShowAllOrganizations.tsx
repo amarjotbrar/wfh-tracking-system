@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 //library components
 import SearchIcon from '@rsuite/icons/Search';
 import { InputGroup, Input } from "rsuite";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 //components
 import OrgCard from "../OrganizationCard/OrganizationCard";
@@ -104,8 +104,8 @@ const ShowAllOrganizations = ({change}: showOrganizationsProps) => {
           ))}
         </div>
       </div>
+     
       {popup ? <ShowOrganizationUsers org_name= {displayOrganization} closePopup = {closePopup}/>: <></>}
-      <ToastContainer/>
     </>
   );
 };

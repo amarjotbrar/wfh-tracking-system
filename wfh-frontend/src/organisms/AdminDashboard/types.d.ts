@@ -9,8 +9,9 @@ export interface RequestData{
 }
 
 export interface tokenData extends JwtPayload{
-    org_name: string
-    firstName: string;
+    org_name: string,
+    firstName: string,
+    maxWfhDays: number
 }
 
 interface AdminDashboardProps {

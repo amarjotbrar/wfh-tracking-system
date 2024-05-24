@@ -69,6 +69,10 @@ class organizationUserServices {
             {
                 return[400, {code: 400, data:{error: "Organization not present!", response:""}}];
             }
+            else if(!organizationPresent.isActive)
+            {
+                return[400, {code: 400, data:{error: "Organization is Inactive!", response:""}}];
+            }
             else if(!linkPresent)
             {
                 return[400, {code: 400, data:{error: "No such user in this organization!", response: ""}}];
@@ -87,11 +91,12 @@ class organizationUserServices {
                             firstName: linkPresent.firstName,
                             email: linkPresent.email,
                             userType: userType,
-                            org_name: linkPresent.org_name
+                            org_name: linkPresent.org_name,
+                            maxWfhDays: organizationPresent.maxWfhDays
                         },
                         `${process.env.JWTKEY}`,
                         {
-                            expiresIn: "1h"
+                            expiresIn: "3h"
                         }
                     )
 
@@ -116,6 +121,18 @@ class organizationUserServices {
             {
                 return [400, {code: 400, data:{error: "No such user in this organization", response:""}}];
             }
+            const month = reqData.requestDate.substring(3);
+
+            const leavesApplied = await this.wfhRequestDaoInstance.showUserRequests(userData.org_name, userData.email);
+
+            const result = leavesApplied.filter((request) => {
+                return (request.requestDate.substring(3) === month &&( request.isApproved == "Pending" || request.isApproved == "Approved"));
+            })
+
+            if(result.length >= userData.maxWfhDays)
+            {
+                return [400, {code: 400, data:{error: "WFH Limit reached for this month!", response:""}}];
+            }
             
             const createWfhRequest: createWfhRequest = {
                 email: userData.email,
@@ -124,6 +141,7 @@ class organizationUserServices {
                 details: reqData.details,
                 firstName: userData.firstName
             }
+
             const createRequest = await this.wfhRequestDaoInstance.createWfhRequest(createWfhRequest);
             return [200, {code: 200, data:{error: "", response:createRequest}}];
         }
@@ -132,10 +150,13 @@ class organizationUserServices {
         }
     }
 
-    public showUserRequests = async(email: String, org_name: String):Promise<[number, any]> => {
+    public showUserRequests = async(email: String, org_name: String, month:string, maxWfhDays: number):Promise<[number, any]> => {
         try {
             const response = await this.wfhRequestDaoInstance.showUserRequests(org_name, email);
-            return [200, {code: 200, data:{error:"", response: response}}];
+            const result = response.filter((request) => {
+                return request.requestDate.substring(3) === month;
+            })
+            return [200, {code: 200, data:{error:"", response: result}}];
         } catch (error:any) {
             return [401, {code: 401, data:{error: error.message, response: ""}}];
         }

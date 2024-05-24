@@ -21,8 +21,8 @@ class organizationDao {
         return response;
     }
 
-    public makeOrganizationLive = async(id: String) => {
-        const response = await organizationModel.findByIdAndUpdate(id, {isActive: true});
+    public makeOrganizationLive = async({id, name, maxWfhDays}: makeOrganizationLiveData) => {
+        const response = await organizationModel.findByIdAndUpdate(id, {maxWfhDays: maxWfhDays, name: name,isActive: true});
         return response;
     }
 

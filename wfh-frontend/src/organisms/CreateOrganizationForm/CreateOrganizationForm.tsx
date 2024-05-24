@@ -39,7 +39,7 @@ const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFo
     }
 
     if (response.ok) {
-      toast.success('Created Successfulyy!', {autoClose:2000});
+      toast.success(result.data.message, {autoClose:2000});
       setTimeout(() => {
         setError("");
         toggleChange();

@@ -1,9 +1,14 @@
 import wfhRequestModel from "../models/wfhRequest.model.js";
 
 class wfhRequestDao {
-    public showRequests = async (org_name: String) => {
-        const response = await wfhRequestModel.find({org_name: org_name});
+    public showRequests = async (org_name: String, skip: number, limit: number, requestStatus: string) => {
+        const response = await wfhRequestModel.find({org_name: org_name, isApproved: requestStatus}).skip(skip).limit(limit);
         console.log(response);
+        return response;
+    }
+
+    public getNumberOfRequests = async (org_name: String, requestStatus: string) => {
+        const response = (await wfhRequestModel.find({org_name: org_name, isApproved: requestStatus})).length;
         return response;
     }
 

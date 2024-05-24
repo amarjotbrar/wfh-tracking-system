@@ -1,7 +1,7 @@
 import { OrganizationData, SystemLoginData, SystemUserData } from "../types";
 
 export const createOrganization = async (addOrgUser: OrganizationData, token : string) => {
-  return await fetch("http://localhost:5000/sys/createorg", {
+  return await fetch("http://localhost:5000/system/create-organization", {
     method: "POST",
     body: JSON.stringify(addOrgUser),
     headers: {
@@ -12,7 +12,7 @@ export const createOrganization = async (addOrgUser: OrganizationData, token : s
 };
 
 export const createSystemUser = async (addSysUser: SystemUserData) => {
-    const response = await fetch("http://localhost:5000/sys/register", {
+    const response = await fetch("http://localhost:5000/system/register", {
       method: "POST",
       body: JSON.stringify(addSysUser),
       headers: {
@@ -23,7 +23,7 @@ export const createSystemUser = async (addSysUser: SystemUserData) => {
 };
 
 export const deleteOrganization = async (id: string, token: string) => {
-    return await fetch(`http://localhost:5000/sys/deleteorg/${id}`, {
+    return await fetch(`http://localhost:5000/system/delete-organization/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const deleteOrganization = async (id: string, token: string) => {
 };
 
 export const loginSystemUser = async (loginData :SystemLoginData ) => {
-      return await fetch("http://localhost:5000/sys/login",{
+      return await fetch("http://localhost:5000/system/login",{
         method: "POST",
         body: JSON.stringify(loginData),
         headers: {
@@ -43,7 +43,7 @@ export const loginSystemUser = async (loginData :SystemLoginData ) => {
 }
 
 export const showAllOrganizations = async (token: string | null) => {
-  return await fetch("http://localhost:5000/sys/showorgs",{
+  return await fetch("http://localhost:5000/system/get-organizations",{
     headers:{
       'Authorization':`${token}`
     }
@@ -51,7 +51,7 @@ export const showAllOrganizations = async (token: string | null) => {
 }
 
 export const showOrganizationUsers = async (org_name: string, token: string) => {
-  return await fetch(`http://localhost:5000/sys/showusers/${org_name}`,{
+  return await fetch(`http://localhost:5000/system/get-users/${org_name}`,{
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export const showOrganizationUsers = async (org_name: string, token: string) => 
 }
 
 export const makeAdmin = async(id: string, token: string) => {
-  return await fetch(`http://localhost:5000/sys/makeadmin/${id}`,{
+  return await fetch(`http://localhost:5000/system/change-admin/${id}`,{
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

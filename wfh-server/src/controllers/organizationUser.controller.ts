@@ -31,7 +31,8 @@ class organizationUserController{
         const userData = {
             email: req.user.email,
             org_name: req.user.org_name,
-            firstName: req.user.firstName
+            firstName: req.user.firstName,
+            maxWfhDays: req.user.maxWfhDays
         }
         const [status, response] = await this.organizationUserServiceInstance.createRequest(reqData, userData);
         res.status(status).json(response);
@@ -40,8 +41,9 @@ class organizationUserController{
     public showUserRequests = async(req: Request, res: Response): Promise<any> => {
         const org_name = req.user.org_name;
         const email = req.user.email;
-
-        const [status, response] = await this.organizationUserServiceInstance.showUserRequests(email, org_name);
+        const month = req.params.month;
+        const maxWfhDays = req.user.maxWfhDays;
+        const [status, response] = await this.organizationUserServiceInstance.showUserRequests(email, org_name, month, maxWfhDays);
         res.status(status).json(response);
     }
 }

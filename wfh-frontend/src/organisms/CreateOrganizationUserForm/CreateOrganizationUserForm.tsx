@@ -71,10 +71,10 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
     } else handleOrganization(e);
   };
 
-  // const getCurrentDate = () => {
-  //   const today = new Date();
-  //   return today.toISOString().split('T')[0];
-  // };
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
 
   // const getMaxDate = () =>{
   //   const today = new Date();
@@ -117,6 +117,7 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
                 <div className={styles.DateContainer}>
                     <label className="form-label">Joining Date</label>
                     <Input
+                    max={getCurrentDate()}
                     type="date"
                     onChange={(e: InputFeild) => {
                         setDOJ(e);

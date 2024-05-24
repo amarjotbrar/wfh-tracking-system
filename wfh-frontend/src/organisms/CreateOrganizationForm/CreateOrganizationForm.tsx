@@ -27,15 +27,15 @@ const CreateOrganizationForm = ({closePopup, toggleChange}: createOrganizationFo
       return;
     }
     const isActive = true;
-    const addOrg = { org_name, name, maxWfhDays, isActive};
+    const addOrg = { org_name , name, maxWfhDays, isActive};
 
     const response = await createOrganization(addOrg, token);
 
     const result = await response.json();
 
     if (!response.ok) {
-      setError(result.data.error);
-      toast.error(result.error);
+      setError(result.error);
+      toast.error(result.data.error);
     }
 
     if (response.ok) {

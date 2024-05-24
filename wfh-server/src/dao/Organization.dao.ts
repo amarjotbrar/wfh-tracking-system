@@ -7,6 +7,7 @@ class organizationDao {
     }
 
     public createOrganization = async( { org_name, name, maxWfhDays, isActive }: orgType) => {
+        org_name = org_name.toLowerCase();
         const response = await organizationModel.create({ org_name, name, maxWfhDays , isActive});
         return response;
     }

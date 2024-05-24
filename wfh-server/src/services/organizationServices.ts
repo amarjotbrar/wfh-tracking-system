@@ -4,8 +4,7 @@ class organizationServices {
     private organizationDaoInstance = new organizationDao();
 
     public createOrganization = async (orgData : orgType): Promise<[number, any]> => {
-        
-        const organizationAlreadyPresent = await this.organizationDaoInstance.findOrganization(orgData.org_name);
+        const organizationAlreadyPresent = await this.organizationDaoInstance.findOrganization(orgData.org_name.toLowerCase());
 
         if(!!organizationAlreadyPresent)
         {

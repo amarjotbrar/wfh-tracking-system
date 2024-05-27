@@ -86,7 +86,7 @@ class organizationUserServices {
                 const createdTime = (created.getFullYear() * 365 * 24 * 60) + (created.getMonth() * 30 * 24 * 60) + (created.getDate()* 24 * 60) + (created.getHours() * 60) + (created.getMinutes());
                 const currTime = (now.getFullYear() * 365 * 24 * 60) + (now.getMonth() * 30 * 24 * 60) + (now.getDate()* 24 * 60) + (now.getHours() * 60) + (now.getMinutes());
                 
-                if((currTime - createdTime) > 15)
+                if((currTime - createdTime) > 15 || verifyLogin.isUsed)
                 {
                     return [400, {code: 400, data:{error: "OTP Expired"}}];
                 }
@@ -96,6 +96,7 @@ class organizationUserServices {
                 if(isAdmin == true) userType = 'admin';
                 if(verifyLogin.otp == otp)
                 {
+                    await this.otpDaoInstance.updateIsUsed(email);
                     const token = jwt.sign(
                         {
                             id: linkPresent._id,

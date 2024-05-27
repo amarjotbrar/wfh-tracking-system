@@ -35,6 +35,16 @@ class systemUserServices {
             {
                 const verifyLogin:any = await this.otpDaoInstance.findUserOtp(email);
 
+                const now = new Date();
+                const created:Date = verifyLogin.updatedAt;
+                const createdTime = (created.getFullYear() * 365 * 24 * 60) + (created.getMonth() * 30 * 24 * 60) + (created.getDate()* 24 * 60) + (created.getHours() * 60) + (created.getMinutes());
+                const currTime = (now.getFullYear() * 365 * 24 * 60) + (now.getMonth() * 30 * 24 * 60) + (now.getDate()* 24 * 60) + (now.getHours() * 60) + (now.getMinutes());
+                
+                if((currTime - createdTime) > 15)
+                {
+                    return [400, {code: 400, data:{error: "OTP Expired"}}];
+                }
+
                 if(verifyLogin.otp == otp)
                 {
                     const token = jwt.sign(

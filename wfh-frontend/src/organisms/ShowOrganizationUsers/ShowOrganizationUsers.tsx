@@ -5,6 +5,10 @@ import { useEffect, useState } from "react";
 import { Button, Modal} from "rsuite";
 import { toast } from "react-toastify";
 
+//components
+import CreateOrganizationUserForm from "../CreateOrganizationUserForm/CreateOrganizationUserForm";
+import UsersTable from "../UsersTable/UsersTable";
+
 //services
 import { makeAdmin, showOrganizationUsers } from "../../services/systemUserServices/systemUserServices";
 
@@ -12,10 +16,8 @@ import { makeAdmin, showOrganizationUsers } from "../../services/systemUserServi
 import { OrganizationUserData, showUserProps } from "./types";
 
 //styles
-import 'react-toastify/dist/ReactToastify.css';
 import styles from "./ShowOrganizationUsers.module.scss";
-import UsersTable from "../UsersTable/UsersTable";
-import CreateOrganizationUserForm from "../CreateOrganizationUserForm/CreateOrganizationUserForm";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ShowOrganizationUsers = ({org_name, closePopup} : showUserProps) => {
   const [popup, setPopup] = useState(false);

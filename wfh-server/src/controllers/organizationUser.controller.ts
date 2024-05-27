@@ -41,7 +41,7 @@ class organizationUserController{
     public showUserRequests = async(req: Request, res: Response): Promise<any> => {
         const org_name = req.user.org_name;
         const email = req.user.email;
-        const month = req.params.month;
+        const month = `${req.query.month}-${req.query.year}`;
         const maxWfhDays = req.user.maxWfhDays;
         const [status, response] = await this.organizationUserServiceInstance.showUserRequests(email, org_name, month, maxWfhDays);
         res.status(status).json(response);

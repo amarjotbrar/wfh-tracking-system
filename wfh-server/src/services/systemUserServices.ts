@@ -11,13 +11,13 @@ class systemUserServices {
     public createSystemUser = async(userData: systemUser) : Promise<[number, any]> => {
         const userAlreadyPresent = await this.systemUserDaoInstance.findSystemUser(userData.email);
 
-        if(!!userAlreadyPresent) return[400, {code: 400, data:{error: "User already present", response: ""}}];
+        if(!!userAlreadyPresent) return[400, {code: 400, data:{error: "User already present"}}];
 
         try {
             const userAdded = await this.systemUserDaoInstance.createSystemUser(userData);
-            return[200, {code: 200, data:{error: "", response:userAdded}}];
+            return[200, {code: 200, data:{response:userAdded}}];
         } catch (error: any) {
-            return [400, {code: 200, data:{error: error.message ,response: ""}}];
+            return [400, {code: 200, data:{error: error.message}}];
         }
     }
 
@@ -29,7 +29,7 @@ class systemUserServices {
 
             if(!userPresent)
             {
-                return[400, {code: 400, data:{error: "User not present, Please register First", response: ""}}];
+                return[400, {code: 400, data:{error: "User not present, Please register First"}}];
             }
             else
             {
@@ -50,24 +50,24 @@ class systemUserServices {
                         }
                     )
 
-                    return [200, {code: 200, data:{error: "", response:token}}];
+                    return [200, {code: 200, data:{response:token}}];
                 }
                 else
                 {
-                    return [400, {code: 400, data:{error: "Invalid OTP", response: ""}}];
+                    return [400, {code: 400, data:{error: "Invalid OTP"}}];
                 }
             }
         } catch (error) {
-            return [400,{code: 400, data: {error: "No otp for this User!", response: ""}}];
+            return [400,{code: 400, data: {error: "No otp for this User!"}}];
         }
     }
 
     public getOrganizationUsers = async(org_name: string): Promise<[number,any]> => {
         try {
             const response = await this.organizationUserDaoInstance.findUsers(org_name);
-            return [200, {code: 400, data:{error: "", response:response}}];
+            return [200, {code: 400, data:{response:response}}];
         } catch (error) {
-            return [400, {code: 400, data: {error: error, response: ""}}];
+            return [400, {code: 400, data: {error: error}}];
         }
     }
 
@@ -85,13 +85,13 @@ class systemUserServices {
                 const adminPresent = await this.organizationUserDaoInstance.findAdmin(userData.org_name);
                 if (adminPresent)
                 {
-                    return [400, {code: 400, data:{error: "Admin already present!", response: ""}}];
+                    return [400, {code: 400, data:{error: "Admin already present!"}}];
                 }
             }
             const response = await this.organizationUserDaoInstance.makeAdmin(id, value);
-            return[200, {code: 200, data:{error: "", response:response}}];
+            return[200, {code: 200, data:{response:response}}];
         } catch (error) {
-            return [400, {code: 400, data:{error: error, response: ""}}];
+            return [400, {code: 400, data:{error: error}}];
         }
     }
 }

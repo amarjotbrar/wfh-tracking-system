@@ -106,7 +106,7 @@ const CreateOrganizationForm = ({org_name, showUsers}: CreateOrganizationUserPro
                 <div className={styles.DateContainer}>
                     <label className="form-label">Date of Birth</label>
                     <Input
-                    // max={getMaxDate()}
+                    max={getCurrentDate()}
                     type="date"
                     onChange={(e: InputFeild) => {
                         setDOB(e);

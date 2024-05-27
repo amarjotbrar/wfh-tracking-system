@@ -1,7 +1,7 @@
 import { OrganizationLoginData, OrganizationUserData, createRequestData } from "../types";
 
 export const createOrganizationUser = async (addOrgUser: OrganizationUserData) => {
-  console.log(addOrgUser);
+    console.log(addOrgUser);
     const response = await fetch("http://localhost:5000/user/register", {
       method: "POST",
       body: JSON.stringify(addOrgUser),
@@ -24,7 +24,7 @@ return response;
 }
 
 export const createWfhRequest = async (requestData: createRequestData, token: string) => {
-  const response = await fetch("http://localhost:5000/user/create-request",{
+  const response = await fetch("http://localhost:5000/user/request",{
     method: "POST",
     body: JSON.stringify(requestData),
     headers: {
@@ -36,8 +36,9 @@ export const createWfhRequest = async (requestData: createRequestData, token: st
 }
 
 export const showWfhRequests = async (token: string, month:string) => {
-  console.log(month);
-  const response = await fetch(`http://localhost:5000/user/get-requests/${month}`, {
+  const year = month.substring(3,7);
+  month = (month.substring(0,2));
+  const response = await fetch(`http://localhost:5000/user/requests?month=${month}&year=${year}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

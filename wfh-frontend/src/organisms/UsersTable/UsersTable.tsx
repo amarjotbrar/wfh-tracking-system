@@ -8,7 +8,7 @@ function UsersTable({data, handleAdminClick}: UserTableProps) {
   return (
     <>
         <Table className={styles.userTable} data={data} fillHeight style={{width:"100%"}}>
-                <Column flexGrow={1} align="center">
+                <Column flexGrow={1.5} align="center">
                     <HeaderCell className='tablehead'>Email ID</HeaderCell>
                     <Cell dataKey="email" />
                 </Column>
@@ -28,7 +28,7 @@ function UsersTable({data, handleAdminClick}: UserTableProps) {
                       )}
                     </Cell>
                 </Column>
-                <Column flexGrow={1} align="center">
+                <Column flexGrow={1} align="center" fixed="right">
                     <HeaderCell className='tablehead'>Action</HeaderCell>
                     <Cell>
                       {(rowData) => (

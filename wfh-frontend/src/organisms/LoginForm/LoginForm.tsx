@@ -22,9 +22,23 @@ const LoginForm = () => {
   const [org_name, setOrg] = useState("");
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [otpButton, setOtpButton] = useState(false);
+  const [otpButtonText, setOtpButtonText] = useState("Get OTP");
+  const [otpTimeout, setOtpTimeout] = useState(0);
+  const [counter, setCounter] = useState(15);
+  const [counterInterval, setCounterInterval] = useState(0);
   // const [load, setLoad] = useState(false);
 
   const navigate = useNavigate();
+
+  const handleUserChange = (userType: string) => {
+    setOtpButton(false);
+    setOtpButtonText("Get OTP");
+    setOrg("");
+    clearTimeout(otpTimeout);
+    clearInterval(counterInterval)
+    setUser(userType);
+  }
 
   const handleSystem = async (e:FormSubmit) => {
     e.preventDefault();
@@ -114,6 +128,7 @@ const LoginForm = () => {
 
   const handleOrgOtp = async (e: ButtonClick) => {
     e.preventDefault();
+    setCounter(15);
     if(!email)
       {
         toast.error("Please enter email!", {autoClose:3000});
@@ -130,6 +145,17 @@ const LoginForm = () => {
         if(response.ok)
         {
           toast.success("Otp Sent!");
+          setOtpButton(true)
+          setOtpButtonText("Resend OTP")
+          const counterInterval = setInterval(() => {
+            setCounter((counter) => counter-1)
+          },1000)
+          setCounterInterval(counterInterval);
+          setOtpTimeout(setTimeout(() => {
+            setOtpButton(false);
+            clearInterval(counterInterval)
+          }, 15000))
+          
         }
         if(!response.ok)
         {
@@ -141,6 +167,7 @@ const LoginForm = () => {
 
   const handleSysOtp = async(e: ButtonClick) => {
       e.preventDefault();
+      setCounter(15);
       if(!email)
         {
           toast.error("Please enter email!", {autoClose:3000});
@@ -152,6 +179,16 @@ const LoginForm = () => {
       if(response.ok)
       {
         toast.success("Otp Sent!");
+        setOtpButton(true)
+        setOtpButtonText("Resend OTP")
+        const counterInterval = setInterval(() => {
+          setCounter((counter) => counter-1)
+        },1000)
+        setCounterInterval(counterInterval);
+        setOtpTimeout(setTimeout(() => {
+          setOtpButton(false);
+          clearInterval(counterInterval);
+        }, 15000))
       }
       if(!response.ok)
       {
@@ -170,7 +207,7 @@ const LoginForm = () => {
               <Button
                 size="lg"
                 onClick={() => {
-                  setUser("System");
+                  handleUserChange("System");
                 }}
                 appearance={user == "System" ? "primary" : "ghost"}
               >
@@ -179,7 +216,7 @@ const LoginForm = () => {
               <Button
                 size="lg"
                 onClick={() => {
-                  setUser("Organization");
+                  handleUserChange("Organization");
                 }}
                 appearance={user == "Organization" ? "primary" : "ghost"}
               >
@@ -192,6 +229,7 @@ const LoginForm = () => {
             <Input
               type="email"
               placeholder="E-mail"
+              value={email}
               onChange={(e: InputFeild) => {
                 setEmail(e);
               }}
@@ -200,6 +238,7 @@ const LoginForm = () => {
             <Input
               disabled={user == "System" ? true : false}
               type="text"
+              value={org_name}
               placeholder="Organization"
               onChange={(e: InputFeild) => {
                 setOrg(e);
@@ -214,7 +253,10 @@ const LoginForm = () => {
                 }}
                 placeholder="OTP"
               ></Input>
-              <Button type="button" className={styles.OtpButton} appearance="default" onClick={user === "System" ? handleSysOtp : handleOrgOtp}>Get OTP</Button>
+              <div className={styles.otpButtonDiv}>
+                <Button type="button" className={styles.OtpButton} disabled={otpButton} appearance="default" onClick={user === "System" ? handleSysOtp : handleOrgOtp}>{otpButtonText}</Button>
+                {otpButton? <p>{`${counter}s`}</p>: <></>}
+              </div>
             </div>
 
             <Button type="submit" appearance="primary" size="lg">

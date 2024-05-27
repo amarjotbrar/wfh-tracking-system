@@ -39,16 +39,16 @@ export const orgAuthorization = (req: Request, res: Response, next: NextFunction
 
     jwt.verify(token, `${process.env.JWTKEY}`, (err, decoded) => {
         if (err) {
-            return res.status(400).json({ code:400, data:{error: `Unauthorized access(invalid token): ${err.message}`, response: ""}});
+            return res.status(400).json({ code:400, data:{error: `Unauthorized access(invalid token): ${err.message}`}});
         }
         req.user = decoded;
         if(req.user.userType != "user") {
-            return res.status(400).json({ code:400, data:{error: `Unauthorized access`, response: ""}});
+            return res.status(400).json({ code:400, data:{error: `Unauthorized access`}});
         }
 
         async () => {
             const orgActive = await organizationDaoInstance.checkStatus(req.user.org_name);
-            if(orgActive == true) return res.status(400).json({ code:400, data:{error: `Organization Inactive`, response: ""}});
+            if(orgActive == true) return res.status(400).json({ code:400, data:{error: `Organization Inactive`}});
         }
         
         next();
@@ -58,21 +58,21 @@ export const orgAuthorization = (req: Request, res: Response, next: NextFunction
 export const adminAuthorization = (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization'];
     if (!token) {
-        return res.status(400).json({code:400, data:{error: "You are unauthorized! (no token)" ,response: ""}});
+        return res.status(400).json({code:400, data:{error: "You are unauthorized! (no token)" }});
     }
 
     jwt.verify(token, `${process.env.JWTKEY}`, (err, decoded) => {
         if (err) {
-            return res.status(400).json({ code:400, data:{error: `Unauthorized access(invalid token): ${err.message}`, response: ""}});
+            return res.status(400).json({ code:400, data:{error: `Unauthorized access(invalid token): ${err.message}`}});
         }
         req.user = decoded;
         if(req.user.userType != "admin") {
-            return res.status(400).json({ code:400, data:{error: `Unauthorized access`, response: ""}});
+            return res.status(400).json({ code:400, data:{error: `Unauthorized access`}});
         }
 
         async () => {
             const orgActive = await organizationDaoInstance.checkStatus(req.user.org_name);
-            if(orgActive == true) return res.status(400).json({ code:400, data:{error: `Organization Inactive`, response: ""}});
+            if(orgActive == true) return res.status(400).json({ code:400, data:{error: `Organization Inactive`}});
         }
         
         next();

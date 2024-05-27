@@ -20,10 +20,10 @@ class organizationUserServices {
 
         const orgPresent = await this.organizationDaoInstance.findOrganization(userData.org_name);
         if(!orgPresent) return [401, {code: 401,data: {error: "No such Organization", response:""}}];
-        if(!orgPresent.isActive) return [401, {code: 401, data:{error:"This Organization is InActive!", response:""}}]
+        if(!orgPresent.isActive) return [401, {code: 401, data:{error:"This Organization is InActive!"}}]
 
         const userAlreadyPresent = await this.organizationUserDaoInstance.findLink(linkCreation.email, linkCreation.org_name);
-        if(userAlreadyPresent) return[401, {code:401, data:{error: "User already present!", response:""}}];
+        if(userAlreadyPresent) return[401, {code:401, data:{error: "User already present!"}}];
 
         try{
             const dob = yearFirstConvertor(userData.dob.toString());
@@ -33,23 +33,23 @@ class organizationUserServices {
 
             if(dob > today || doj > today)
             {
-                return [400, {code: 400, data:{error: "Invalid Dates!", response:""}}];
+                return [400, {code: 400, data:{error: "Invalid Dates!"}}];
             }
             if(doj < dob)
             {
-                return [400, {code: 400, data:{error: "Can't join before birth!", response:""}}];
+                return [400, {code: 400, data:{error: "Can't join before birth!"}}];
             }
 
             if(today - dob < (365*16))
             {
-                return [400, {code: 400, data:{error: "Age should be atleast 16!", response:""}}];
+                return [400, {code: 400, data:{error: "Age should be atleast 16!"}}];
             }
             
             const userAdded = await this.organizationUserDaoInstance.createOrganizationUser(userData);
-            return [200, {code: 200, data:{error: "", response:userAdded}}];
+            return [200, {code: 200, data:{response:userAdded}}];
         } catch (error:any){
             console.log(error);
-            return [401, {code: 401, data:{error: error.message, response: ""}}];
+            return [401, {code: 401, data:{error: error.message}}];
         }
     }
 
@@ -63,19 +63,19 @@ class organizationUserServices {
 
             if(!userPresent)
             {
-                return[400, {code: 400, data:{error: "User not present, Please register First", response:""}}];
+                return[400, {code: 400, data:{error: "User not present, Please register First"}}];
             }
             else if(!organizationPresent)
             {
-                return[400, {code: 400, data:{error: "Organization not present!", response:""}}];
+                return[400, {code: 400, data:{error: "Organization not present!"}}];
             }
             else if(!organizationPresent.isActive)
             {
-                return[400, {code: 400, data:{error: "Organization is Inactive!", response:""}}];
+                return[400, {code: 400, data:{error: "Organization is Inactive!"}}];
             }
             else if(!linkPresent)
             {
-                return[400, {code: 400, data:{error: "No such user in this organization!", response: ""}}];
+                return[400, {code: 400, data:{error: "No such user in this organization!"}}];
             }
             else
             {
@@ -100,15 +100,15 @@ class organizationUserServices {
                         }
                     )
 
-                    return [200, {code: 200, data:{error: "", response:{token: token, userType: userType}}}];
+                    return [200, {code: 200, data:{response:{token: token, userType: userType}}}];
                 }
                 else
                 {
-                    return [401, {code: 401, data:{error: "Invalid OTP", response: ""}}];
+                    return [401, {code: 401, data:{error: "Invalid OTP"}}];
                 }
             }
         } catch (error) {
-            return [400, {code:401, data:{error: "No otp for this User!", response: ""}}];
+            return [400, {code:401, data:{error: "No otp for this User!"}}];
         }
     }
 
@@ -119,7 +119,7 @@ class organizationUserServices {
 
             if(!linkPresent)
             {
-                return [400, {code: 400, data:{error: "No such user in this organization", response:""}}];
+                return [400, {code: 400, data:{error: "No such user in this organization"}}];
             }
             const month = reqData.requestDate.substring(3);
 
@@ -131,7 +131,7 @@ class organizationUserServices {
 
             if(result.length >= userData.maxWfhDays)
             {
-                return [400, {code: 400, data:{error: "WFH Limit reached for this month!", response:""}}];
+                return [400, {code: 400, data:{error: "WFH Limit reached for this month!"}}];
             }
             
             const createWfhRequest: createWfhRequest = {
@@ -143,10 +143,10 @@ class organizationUserServices {
             }
 
             const createRequest = await this.wfhRequestDaoInstance.createWfhRequest(createWfhRequest);
-            return [200, {code: 200, data:{error: "", response:createRequest}}];
+            return [200, {code: 200, data:{response:createRequest}}];
         }
         catch(error: any){
-            return [401, {code: 401, data:{error: error.message, response: ""}}];
+            return [401, {code: 401, data:{error: error.message}}];
         }
     }
 
@@ -156,9 +156,9 @@ class organizationUserServices {
             const result = response.filter((request) => {
                 return request.requestDate.substring(3) === month;
             })
-            return [200, {code: 200, data:{error:"", response: result}}];
+            return [200, {code: 200, data:{response: result}}];
         } catch (error:any) {
-            return [401, {code: 401, data:{error: error.message, response: ""}}];
+            return [401, {code: 401, data:{error: error.message}}];
         }
     }
 }

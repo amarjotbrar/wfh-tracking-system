@@ -1,6 +1,6 @@
 import {Router} from 'express';
 
-import { systemUserValidator } from '../middleware/validators/systemUser.validator.js';
+// import { systemUserValidator } from '../middleware/validators/systemUser.validator.js';
 import organizationUserController from "../controllers/organizationUser.controller.js";
 import systemUserController from "../controllers/systemUser.controller.js";
 import organizationController from "../controllers/organization.controller.js";
@@ -9,6 +9,7 @@ import zodValidator from '../middleware/validators/zod.validator.js';
 import { organizationUserValidator } from '../middleware/validators/organizationUser.validator.js';
 import { createOrganizationValidator } from '../middleware/validators/systemUser.validator.js';
 import { adminAuthorization, orgAuthorization, sysAuthorization} from '../middleware/authMiddleware.js';
+import { verifyUser } from '../helpers/verifyUser.js';
 
 class routes{
     public organizationUserPath = '/user';
@@ -25,6 +26,7 @@ class routes{
         this.initializeSystemUserRoutes(`${this.systemUserPath}`);
         this.initializeOrganizationUserRoutes(`${this.organizationUserPath}`);
         this.initializeAdminRoutes(`${this.adminPath}`);
+        this.initializeVerifyUserRoute();
     }
 
     private initializeSystemUserRoutes(prefix: string){
@@ -53,6 +55,10 @@ class routes{
         this.router.get(`${prefix}/requests/:org_name`, adminAuthorization, this.organizationAdminControlloer.showRequests);
         this.router.put(`${prefix}/request/approve/:id`,adminAuthorization, this.organizationAdminControlloer.approveRequest);
         this.router.put(`${prefix}/request/reject/:id`, adminAuthorization,this.organizationAdminControlloer.rejectRequest);
+    }
+
+    private initializeVerifyUserRoute(){
+        this.router.get("/verify-user", verifyUser);
     }
 }
 
